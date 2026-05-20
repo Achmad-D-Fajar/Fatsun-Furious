@@ -66,6 +66,9 @@ public class GameManager : MonoBehaviour
     [Tooltip("Sound played when a level is completed.")]
     [SerializeField] private AudioClip sfxLevelComplete;
 
+    [Tooltip("SFX pendek saat player menekan tombol UI apapun.")]
+    [SerializeField] private AudioClip sfxButtonClick;
+
     [Header("─── Crash VFX ───────────────────────────────────")]
     [Tooltip("Prefab VFX 💥 yang muncul saat player crash. " +
             "Drag prefab CrashVFX ke sini.")]
@@ -115,6 +118,7 @@ public class GameManager : MonoBehaviour
 
     /// <summary>Fired when a level is completed. Passes the clear time in seconds.</summary>
     public static event Action<float> OnLevelComplete;
+
 
     // ── Audio Volume Preferences (persisted via PlayerPrefs) ──────────────────
 
