@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
@@ -163,11 +164,14 @@ public class UIManager : MonoBehaviour
 
     private void HandleStateChanged(GameState newState)
     {
+        Debug.Log($"[UIManager] HandleStateChanged({newState}) | storyPanel={storyPanel}");
+
         // Hide all panels first, then show the relevant one.
         SetAllPanelsInactive();
 
         switch (newState)
         {
+
             case GameState.MainMenu:
                 ShowPanel(mainMenuPanel);
                 RefreshLevelSelectUI();
@@ -255,14 +259,20 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance?.CurrentLevelData == null) return;
 
         Sprite[] pages = GameManager.Instance.CurrentLevelData.storyComicPages;
-        if (pages == null || pages.Length == 0) return;
+        bool hasPages = pages != null && pages.Length > 0;
 
-        _currentStoryPage = Mathf.Clamp(pageIndex, 0, pages.Length - 1);
-        if (storyComicImage != null) storyComicImage.sprite = pages[_currentStoryPage];
+        _currentStoryPage = hasPages ? Mathf.Clamp(pageIndex, 0, pages.Length - 1) : 0;
 
-        // Show/hide the "click to continue" hint on the last page.
-        bool isLastPage = _currentStoryPage >= pages.Length - 1;
-        if (storyContinueText != null) storyContinueText.gameObject.SetActive(isLastPage);
+        // Set the comic image — show placeholder color if no sprite assigned yet
+        if (storyComicImage != null)
+        {
+            storyComicImage.sprite = hasPages ? pages[_currentStoryPage] : null;
+            storyComicImage.color  = hasPages ? Color.white : new Color(0.15f, 0.15f, 0.15f);
+        }
+
+        // "Click to continue" text always shows so the player knows to tap
+        if (storyContinueText != null)
+            storyContinueText.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -277,14 +287,14 @@ public class UIManager : MonoBehaviour
         Sprite[] pages = GameManager.Instance.CurrentLevelData.storyComicPages;
         int totalPages = pages != null ? pages.Length : 0;
 
-        if (_currentStoryPage < totalPages - 1)
+        if (totalPages > 1 && _currentStoryPage < totalPages - 1)
         {
-            // More pages to show.
+            // More pages to show
             ShowStoryPage(_currentStoryPage + 1);
         }
         else
         {
-            // Last page clicked — begin gameplay.
+            // Last page OR no pages at all — start the level
             GameManager.Instance.StartPlaying();
         }
     }
@@ -449,5 +459,16 @@ public class UIManager : MonoBehaviour
         }
 
         text.transform.localScale = Vector3.one;
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance?.CurrentState != GameState.Story) return;
+
+        bool clicked = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+        bool tapped  = Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame;
+
+        if (clicked || tapped)
+            OnStoryPanelClicked();
     }
 }
