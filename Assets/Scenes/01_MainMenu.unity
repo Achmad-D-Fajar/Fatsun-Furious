@@ -5889,11 +5889,17 @@ MonoBehaviour:
   gameplaySceneName: 02_Gameplay
   bgmSource: {fileID: 1657683247}
   sfxSource: {fileID: 672476009}
-  menuBGM: {fileID: 8300000, guid: 09ec21953b4de7a4586d5bd054254c01, type: 3}
+  menuBGM: {fileID: 8300000, guid: 1829c0873b7859e44909dfc17f0de505, type: 3}
+  menuBGMVolume: 1
+  levelBGMVolume: 1
   sfxGreeting: {fileID: 0}
+  sfxGreetingVolume: 1
   sfxCrash: {fileID: 8300000, guid: ee53962ffc1db1d4199ac49d0c8c4d78, type: 3}
+  sfxCrashVolume: 1
   sfxLevelComplete: {fileID: 8300000, guid: c3a106d933163494eb0c1c422d423854, type: 3}
+  sfxLevelCompleteVolume: 1
   sfxButtonClick: {fileID: 8300000, guid: 8d711a2345f5ca746ba1aac190e57aa9, type: 3}
+  sfxButtonClickVolume: 1
 --- !u!4 &1784067885
 Transform:
   m_ObjectHideFlags: 0

@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("Exact name of the Gameplay scene as shown in Build Settings.")]
     [SerializeField] private string gameplaySceneName = "02_Gameplay";
 
-    [Header("─── Audio ───────────────────────────────────────────")]
+    [Header("─── Audio Sources ───────────────────────────────────")]
     [Tooltip("AudioSource used to play background music. " +
              "Attach an AudioSource component and drag it here.")]
     [SerializeField] private AudioSource bgmSource;
@@ -57,21 +57,36 @@ public class GameManager : MonoBehaviour
     [Tooltip("AudioSource used to play sound effects (SFX).")]
     [SerializeField] private AudioSource sfxSource;
 
-    [Tooltip("BGM played on the Main Menu and Story screens. " +
-             "Drag your menu music clip here.")]
+    [Header("─── BGM Clips & Volumes ─────────────────────────────")]
+    [Tooltip("BGM played on the Main Menu and Story screens.")]
     [SerializeField] private AudioClip menuBGM;
+    [Tooltip("Volume for the Main Menu BGM (0 = silent, 1 = full).")]
+    [SerializeField] [Range(0f, 1f)] private float menuBGMVolume = 1f;
 
+    [Tooltip("Fallback volume for level BGMs that have no LevelData asset assigned. " +
+             "Per-level volume is now set inside each LevelData ScriptableObject.")]
+    [SerializeField] [Range(0f, 1f)] private float levelBGMVolume = 1f;
+
+    [Header("─── SFX Clips & Volumes ─────────────────────────────")]
     [Tooltip("Sound played when the player successfully greets an NPC (Permisi!).")]
     [SerializeField] private AudioClip sfxGreeting;
+    [Tooltip("Volume for the greeting SFX.")]
+    [SerializeField] [Range(0f, 1f)] private float sfxGreetingVolume = 1f;
 
     [Tooltip("Sound played on any collision / failure.")]
     [SerializeField] private AudioClip sfxCrash;
+    [Tooltip("Volume for the crash / failure SFX.")]
+    [SerializeField] [Range(0f, 1f)] private float sfxCrashVolume = 1f;
 
     [Tooltip("Sound played when a level is completed.")]
     [SerializeField] private AudioClip sfxLevelComplete;
+    [Tooltip("Volume for the level complete SFX.")]
+    [SerializeField] [Range(0f, 1f)] private float sfxLevelCompleteVolume = 1f;
 
-    [Tooltip("SFX pendek saat player menekan tombol UI apapun.")]
+    [Tooltip("Short SFX played when any UI button is pressed.")]
     [SerializeField] private AudioClip sfxButtonClick;
+    [Tooltip("Volume for the button click SFX.")]
+    [SerializeField] [Range(0f, 1f)] private float sfxButtonClickVolume = 1f;
 
     // ── Public Read-Only State ────────────────────────────────────────────────
 
@@ -149,7 +164,7 @@ public class GameManager : MonoBehaviour
         SFXEnabled = PlayerPrefs.GetInt("sfx_enabled", 1) == 1;
 
         // Play menu BGM immediately on boot.
-        PlayBGM(menuBGM);
+        PlayBGM(menuBGM, menuBGMVolume);
     }
 
     private void Update()
@@ -206,7 +221,8 @@ public class GameManager : MonoBehaviour
     /// <summary>Called by LevelManager after the level prefab has been spawned.</summary>
     public void StartStory()
     {
-        PlayBGM(CurrentLevelData?.levelBGM ?? menuBGM); // Play menu music during the comic story screen.
+        PlayBGM(CurrentLevelData?.levelBGM ?? menuBGM,
+                CurrentLevelData?.levelBGM != null ? CurrentLevelData.levelBGMVolume : menuBGMVolume);
         ChangeState(GameState.Story);
     }
 
@@ -227,8 +243,7 @@ public class GameManager : MonoBehaviour
         _timerRunning = true;
         ChangeState(GameState.Playing);
 
-        // Switch to level BGM (stops menu BGM, starts level track with looping).
-        PlayBGM(CurrentLevelData.levelBGM);
+        // BGM already playing from StartStory() — no restart needed.
     }
 
     /// <summary>Pauses or resumes the game. Toggle-safe.</summary>
@@ -261,8 +276,8 @@ public class GameManager : MonoBehaviour
         _timerRunning  = false;
         GameOverReason = reason;
 
-        StopBGM();          // Silence the level music immediately.
-        PlaySFX(sfxCrash);  // Play crash / failure sound effect.
+        StopBGM();                              // Silence the level music immediately.
+        PlaySFX(sfxCrash, sfxCrashVolume);     // Play crash / failure sound effect.
 
         ChangeState(GameState.GameOver);
         OnGameOver?.Invoke(reason);
@@ -282,7 +297,7 @@ public class GameManager : MonoBehaviour
         SaveSystem.TrySetBestTime(CurrentLevelIndex, clearTime);
         SaveSystem.OnLevelComplete(CurrentLevelIndex);
 
-        PlaySFX(sfxLevelComplete);
+        PlaySFX(sfxLevelComplete, sfxLevelCompleteVolume);
 
         ChangeState(GameState.LevelComplete);
         OnLevelComplete?.Invoke(clearTime);
@@ -307,7 +322,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false; // Safety: always un-pause the listener on scene exit.
         ChangeState(GameState.MainMenu);
-        PlayBGM(menuBGM);            // Restart menu music.
+        PlayBGM(menuBGM, menuBGMVolume);  // Restart menu music.
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
@@ -348,7 +363,6 @@ public class GameManager : MonoBehaviour
         BGMEnabled = !BGMEnabled;
         PlayerPrefs.SetInt("bgm_enabled", BGMEnabled ? 1 : 0);
         if (bgmSource == null) return;
-        // Un-pause/pause without restarting the clip from the beginning.
         if (BGMEnabled) bgmSource.UnPause();
         else            bgmSource.Pause();
     }
@@ -359,28 +373,31 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("sfx_enabled", SFXEnabled ? 1 : 0);
     }
 
-    public void PlaySFX(AudioClip clip)
+    /// <summary>
+    /// Plays a SFX clip at a specific volume via PlayOneShot.
+    /// Volume is independent of the sfxSource.volume property,
+    /// so multiple overlapping SFX don't interfere with each other's level.
+    /// </summary>
+    public void PlaySFX(AudioClip clip, float volume = 1f)
     {
-        Debug.Log($"[GameManager] PlaySFX called | " +
-                $"SFXEnabled={SFXEnabled} | " +
-                $"sfxSource={sfxSource} | " +
-                $"clip={clip}");
-
-        if (SFXEnabled && sfxSource != null && clip != null)
-            sfxSource.PlayOneShot(clip);
+        if (!SFXEnabled || sfxSource == null || clip == null) return;
+        sfxSource.PlayOneShot(clip, volume);
     }
 
-    public void PlayGreetingSFX() => PlaySFX(sfxGreeting);
+    /// <summary>Convenience: plays the greeting SFX at its configured volume.</summary>
+    public void PlayGreetingSFX() => PlaySFX(sfxGreeting, sfxGreetingVolume);
+
+    /// <summary>Convenience: plays the button click SFX at its configured volume.</summary>
+    public void PlayButtonClickSFX() => PlaySFX(sfxButtonClick, sfxButtonClickVolume);
 
     /// <summary>
-    /// Stops the current BGM, assigns the new clip, enables looping, and plays it.
+    /// Stops the current BGM, assigns the new clip, and plays it at the given volume.
     /// Safe to call with a null clip — stops BGM without starting a new track.
     /// </summary>
-    private void PlayBGM(AudioClip clip)
+    private void PlayBGM(AudioClip clip, float volume = 1f)
     {
         if (bgmSource == null) return;
 
-        // Always stop before switching clips to avoid overlapping audio.
         bgmSource.Stop();
 
         if (clip == null)
@@ -389,8 +406,9 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        bgmSource.clip = clip;
-        bgmSource.loop = true;
+        bgmSource.clip   = clip;
+        bgmSource.volume = volume;
+        bgmSource.loop   = true;
 
         if (BGMEnabled) bgmSource.Play();
     }
@@ -399,12 +417,6 @@ public class GameManager : MonoBehaviour
     private void StopBGM()
     {
         if (bgmSource != null) bgmSource.Stop();
-    }
-
-    private void ApplyAudioSettings()
-    {
-        // No-op: BGM state is now fully controlled by PlayBGM/StopBGM/ToggleBGM.
-        // This stub is kept for future volume-slider support.
     }
 
     // ── Private Helpers ───────────────────────────────────────────────────────

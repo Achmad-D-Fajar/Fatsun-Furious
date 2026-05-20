@@ -45,4 +45,9 @@ public class LevelData : ScriptableObject
     [Header("─── Audio ───────────────────────────────────────")]
     [Tooltip("Background music clip for this level. Leave null to use the default BGM.")]
     public AudioClip levelBGM;
+
+    [Tooltip("Volume for this level's BGM (0 = silent, 1 = full). " +
+             "Overrides the global Level BGM Volume slider in GameManager.")]
+    [Range(0f, 1f)]
+    public float levelBGMVolume = 1f;
 }
