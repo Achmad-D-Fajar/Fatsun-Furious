@@ -5575,8 +5575,10 @@ MonoBehaviour:
   bgmSource: {fileID: 0}
   sfxSource: {fileID: 0}
   sfxGreeting: {fileID: 0}
-  sfxCrash: {fileID: 0}
-  sfxLevelComplete: {fileID: 0}
+  sfxCrash: {fileID: 8300000, guid: 1f0120ed369618d4b99b0e0441a017a7, type: 3}
+  sfxLevelComplete: {fileID: 8300000, guid: c3a106d933163494eb0c1c422d423854, type: 3}
+  crashVFXPrefab: {fileID: 0}
+  crashVFXSortingOrder: 10
 --- !u!4 &1784067885
 Transform:
   m_ObjectHideFlags: 0
