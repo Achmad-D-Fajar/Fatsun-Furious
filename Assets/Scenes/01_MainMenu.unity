@@ -5566,10 +5566,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   levels:
   - {fileID: 11400000, guid: c584a810f17a715468fe1f17a5a6be3e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: f0062bf9562aaee47b601037283653a9, type: 2}
+  - {fileID: 11400000, guid: e70f8ee5f10417a4baa7e9cccf5573c0, type: 2}
+  - {fileID: 11400000, guid: 362c9cffb6e158945b5bc74107254812, type: 2}
+  - {fileID: 11400000, guid: 389d87247b038224896120d6f89b25ff, type: 2}
   mainMenuSceneName: 01_MainMenu
   gameplaySceneName: 02_Gameplay
   bgmSource: {fileID: 0}
