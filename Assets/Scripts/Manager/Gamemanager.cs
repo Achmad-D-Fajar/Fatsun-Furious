@@ -131,19 +131,18 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Enforce singleton — destroy duplicates created by scene loads.
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Bootstrap save system on first ever launch.
-        SaveSystem.InitializeSave();
+        // Fallback — fetch AudioSources from this GameObject if Inspector refs are lost
+        AudioSource[] sources = GetComponents<AudioSource>();
+        if (sfxSource == null && sources.Length > 0) sfxSource = sources[0];
+        if (bgmSource == null && sources.Length > 1) bgmSource = sources[1];
 
-        // Restore audio prefs.
+        if (sfxSource != null) sfxSource.ignoreListenerPause = true;
+
+        SaveSystem.InitializeSave();
         BGMEnabled = PlayerPrefs.GetInt("bgm_enabled", 1) == 1;
         SFXEnabled = PlayerPrefs.GetInt("sfx_enabled", 1) == 1;
         ApplyAudioSettings();
@@ -252,19 +251,16 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentState == GameState.GameOver) return;
 
-        _timerRunning = false;
-        Time.timeScale = 0f;
+        _timerRunning  = false;
         GameOverReason = reason;
 
-        // ── Spawn Crash VFX di posisi player ──────────────────────────────
         SpawnCrashVFX();
+        PlaySFX(sfxCrash); // ← play BEFORE freezing time
+        Time.timeScale = 0f; // ← freeze AFTER
 
-        PlaySFX(sfxCrash);
         ChangeState(GameState.GameOver);
         OnGameOver?.Invoke(reason);
-
-        Debug.Log($"[GameManager] GAME OVER — {reason}");
-    }
+}
 
     private void SpawnCrashVFX()
     {
@@ -365,6 +361,11 @@ public class GameManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
+        Debug.Log($"[GameManager] PlaySFX called | " +
+                $"SFXEnabled={SFXEnabled} | " +
+                $"sfxSource={sfxSource} | " +
+                $"clip={clip}");
+
         if (SFXEnabled && sfxSource != null && clip != null)
             sfxSource.PlayOneShot(clip);
     }

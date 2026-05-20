@@ -164,9 +164,9 @@ public class UIManager : MonoBehaviour
 
     private void HandleStateChanged(GameState newState)
     {
-        Debug.Log($"[UIManager] HandleStateChanged({newState}) | storyPanel={storyPanel}");
-
-        // Hide all panels first, then show the relevant one.
+        Debug.Log($"[UIManager] HandleStateChanged({newState}) | " +
+                $"levelCompletePanel={levelCompletePanel}");
+        
         SetAllPanelsInactive();
 
         switch (newState)

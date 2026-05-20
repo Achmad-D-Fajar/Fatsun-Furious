@@ -665,6 +665,7 @@ GameObject:
   - component: {fileID: 1163262431018747337}
   - component: {fileID: 2160709462335996761}
   - component: {fileID: 2373793423919564593}
+  - component: {fileID: 8132639093092611768}
   m_Layer: 2
   m_Name: NPCfront
   m_TagString: Obstacle
@@ -977,6 +978,26 @@ PolygonCollider2D:
       - {x: 0.76, y: 0.88}
       - {x: 0.77, y: 0.78999996}
   m_UseDelaunayMesh: 1
+--- !u!114 &8132639093092611768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2833874047146695913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76a4de3826d23f4db0b0494c9321445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleHazard
+  obstacleName: Obstacle
+  failureReason: NABRAK!
+  hasLocalMovement: 0
+  localMoveDirection: {x: 1, y: 0}
+  moveSpeed: 2
+  bounceAtEdges: 0
+  bounceMinX: -2.5
+  bounceMaxX: 2.5
 --- !u!1 &2861687609066617843
 GameObject:
   m_ObjectHideFlags: 0
