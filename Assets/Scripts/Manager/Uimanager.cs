@@ -356,7 +356,15 @@ public class UIManager : MonoBehaviour
         => ShowPanel(exitConfirmPanel);
 
     public void OnExitConfirmed()
-        => Application.Quit();
+    {
+    #if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = false; // Stops Play mode in Editor
+    #elif UNITY_WEBGL
+    Application.ExternalCall("location.reload");
+    #else
+    Application.Quit(); 
+    #endif
+    }
 
     public void OnExitCancelled()
         => HidePanel(exitConfirmPanel);
@@ -470,5 +478,12 @@ public class UIManager : MonoBehaviour
 
         if (clicked || tapped)
             OnStoryPanelClicked();
+    }
+
+    /// <summary>Called by the Restart/New Game button on the Main Menu.</summary>
+    public void OnRestartGamePressed()
+    {
+        SaveSystem.ResetProgress();
+        RefreshLevelSelectUI(); // Immediately updates the level node visuals on screen
     }
 }

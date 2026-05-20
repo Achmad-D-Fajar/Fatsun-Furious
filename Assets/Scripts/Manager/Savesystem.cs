@@ -115,4 +115,13 @@ public static class SaveSystem
 
     private static string GetUnlockKey(int i) => $"{KEY_PREFIX}{i}{KEY_UNLOCK_SUFFIX}";
     private static string GetTimeKey(int i)   => $"{KEY_PREFIX}{i}{KEY_TIME_SUFFIX}";
+    
+    /// <summary>Resets ALL progress. Keeps Level 1 unlocked. Call from a "New Game" button.</summary>
+    public static void ResetProgress()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+        InitializeSave(); // Re-locks levels 2-5, clears best times, re-unlocks level 1
+        Debug.Log("[SaveSystem] Progress reset.");
+    }
 }

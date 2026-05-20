@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelName: Level 4
   levelIndex: 3
-  levelLayoutPrefab: {fileID: 8662575931871479471, guid: 006cb11a912b4114d8a41067b510df0b, type: 3}
-  storyComicPages: []
+  levelLayoutPrefab: {fileID: 2696215653839398054, guid: 57a3b6c8c6db2a84eaa238f971ddd5df, type: 3}
+  storyComicPages:
+  - {fileID: -2895157278119961449, guid: bb765f23bae30ce4088bf95a41e5a5c7, type: 3}
   timeLimitSeconds: 30
   baseScrollSpeed: 5
   accelerateMultiplier: 1.5
