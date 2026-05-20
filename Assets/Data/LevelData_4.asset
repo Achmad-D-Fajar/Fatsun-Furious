@@ -21,4 +21,4 @@ MonoBehaviour:
   baseScrollSpeed: 5
   accelerateMultiplier: 1.5
   slowMultiplier: 0.5
-  levelBGM: {fileID: 0}
+  levelBGM: {fileID: 8300000, guid: 8464a588957c44f4999cc995580e97cc, type: 3}

@@ -1,21 +1,5 @@
 // =============================================================================
 // ObstacleHazard.cs
-// Replacement for ObstacleMovement.cs.
-//
-// Handles the generic "hard collision = Game Over" obstacle type.
-// Dynamic obstacles (pedestrians walking across, animals, etc.) can
-// have their OWN local movement here, INDEPENDENT of the WorldScroller,
-// since they move relative to the level layout.
-//
-// For STATIONARY obstacles (parked motorcycles, poles, etc.): just use this
-// script with movement disabled (moveSpeed = 0). They scroll automatically
-// because they are children of the Level Layout Prefab.
-//
-// SETUP:
-//  1. Create an obstacle prefab (sprite + BoxCollider2D, IsTrigger = true).
-//  2. Attach this script.
-//  3. Set tag to "Obstacle" so PlayerController.OnTriggerEnter2D catches it.
-//  4. Use the Inspector to configure movement for dynamic obstacles.
 // =============================================================================
 
 using UnityEngine;
@@ -30,25 +14,39 @@ public class ObstacleHazard : MonoBehaviour
     [SerializeField] private string failureReason = "NABRAK!";
 
     [Header("─── Local Movement (for dynamic obstacles) ──────────")]
-    [Tooltip("Enable for obstacles that move independently (e.g., a pedestrian " +
-             "crossing the alley). The obstacle moves in LOCAL space, so it " +
-             "will also travel with the scrolling world correctly.")]
     [SerializeField] private bool hasLocalMovement = false;
 
-    [Tooltip("Local movement direction (normalized). " +
-             "Examples: (1,0) = moves right across the alley; (-1,0) = moves left.")]
+    [Tooltip("Arah movement di local space. (1,0)=kanan, (0,1)=atas, (1,1)=diagonal.")]
     [SerializeField] private Vector2 localMoveDirection = Vector2.right;
 
-    [Tooltip("Speed of local movement in units/second.")]
     [SerializeField] private float moveSpeed = 2f;
 
-    [Tooltip("If true, the obstacle reverses direction when it reaches either edge " +
-             "of the alley (for back-and-forth pedestrians).")]
-    [SerializeField] private bool bounceAtEdges = false;
+    [Header("─── Horizontal Bounce ────────────────────────────────")]
+    [Tooltip("Bounce kiri-kanan di dalam batas alley.")]
+    [SerializeField] private bool bounceHorizontal = false;
 
-    [Tooltip("World-space X boundaries for bouncing. Match your lane edge positions.")]
-    [SerializeField] private float bounceMinX = -2.5f;
-    [SerializeField] private float bounceMaxX =  2.5f;
+    // ── FIX: these are now LOCAL X positions (relative to the parent prefab),
+    //         not world X. Because the parent never scrolls horizontally, local X
+    //         and world X are equal in practice — but using localPosition is
+    //         consistent and safe.
+    [SerializeField] private float bounceMinX = -1.8f;
+    [SerializeField] private float bounceMaxX =  1.8f;
+
+    [Header("─── Vertical Patrol ──────────────────────────────────")]
+    [Tooltip("NPC bolak-balik atas-bawah di antara dua titik Y.")]
+    [SerializeField] private bool patrolVertical = false;
+
+    // ── FIX: these are now LOCAL Y positions (relative to the parent prefab).
+    //         Set them based on where the obstacle sits inside the Level Layout Prefab,
+    //         e.g. if the NPC's spawn localY is 0, use patrolMinY = -1.5, patrolMaxY = 1.5.
+    [Tooltip("Titik Y teratas patrol — LOCAL SPACE (relatif ke parent prefab, bukan world).")]
+    [SerializeField] private float patrolMaxY =  1.5f;
+
+    [Tooltip("Titik Y terbawah patrol — LOCAL SPACE (relatif ke parent prefab, bukan world).")]
+    [SerializeField] private float patrolMinY = -1.5f;
+
+    [Tooltip("Mulai bergerak ke atas dulu. Uncheck untuk mulai ke bawah.")]
+    [SerializeField] private bool startMovingUp = true;
 
     // ── Private ───────────────────────────────────────────────────────────────
 
@@ -61,31 +59,65 @@ public class ObstacleHazard : MonoBehaviour
     private void Awake()
     {
         _currentDirection = localMoveDirection.normalized;
+
+        if (patrolVertical)
+            _currentDirection.y = startMovingUp
+                ? Mathf.Abs(_currentDirection.y)
+                : -Mathf.Abs(_currentDirection.y);
     }
 
     private void Update()
     {
-        // Only move during active gameplay.
         if (!hasLocalMovement) return;
-        if (GameManager.Instance == null || GameManager.Instance.CurrentState != GameState.Playing) return;
+        if (GameManager.Instance == null ||
+            GameManager.Instance.CurrentState != GameState.Playing) return;
 
-        // Apply local movement.
-        transform.Translate(_currentDirection * moveSpeed * Time.deltaTime);
+        // ── FIX: Space.Self moves in the object's OWN local axes, which means
+        //         movement is relative to the parent prefab — exactly what we want.
+        //         Space.World was fighting the WorldScroller's downward scroll.
+        transform.Translate(_currentDirection * moveSpeed * Time.deltaTime, Space.Self);
 
-        // Bounce if enabled.
-        if (bounceAtEdges)
+        HandleHorizontalBounce();
+        HandleVerticalPatrol();
+    }
+
+    private void HandleHorizontalBounce()
+    {
+        if (!bounceHorizontal) return;
+
+        // ── FIX: use localPosition.x, not position.x
+        float x = transform.localPosition.x;
+
+        if (x <= bounceMinX)
         {
-            float x = transform.position.x;
-            if (x <= bounceMinX || x >= bounceMaxX)
-            {
-                _currentDirection.x = -_currentDirection.x;
-                // Clamp to boundary.
-                transform.position = new Vector3(
-                    Mathf.Clamp(x, bounceMinX, bounceMaxX),
-                    transform.position.y,
-                    transform.position.z
-                );
-            }
+            _currentDirection.x = Mathf.Abs(_currentDirection.x);
+            transform.localPosition = new Vector3(bounceMinX, transform.localPosition.y, 0f);
+        }
+        else if (x >= bounceMaxX)
+        {
+            _currentDirection.x = -Mathf.Abs(_currentDirection.x);
+            transform.localPosition = new Vector3(bounceMaxX, transform.localPosition.y, 0f);
+        }
+    }
+
+    private void HandleVerticalPatrol()
+    {
+        if (!patrolVertical) return;
+
+        // ── FIX: use localPosition.y, not position.y.
+        //         The parent scrolls in world space; localPosition.y stays stable
+        //         relative to the road, so patrol bounds work correctly.
+        float y = transform.localPosition.y;
+
+        if (y >= patrolMaxY)
+        {
+            _currentDirection.y = -Mathf.Abs(_currentDirection.y);
+            transform.localPosition = new Vector3(transform.localPosition.x, patrolMaxY, 0f);
+        }
+        else if (y <= patrolMinY)
+        {
+            _currentDirection.y = Mathf.Abs(_currentDirection.y);
+            transform.localPosition = new Vector3(transform.localPosition.x, patrolMinY, 0f);
         }
     }
 
@@ -108,13 +140,28 @@ public class ObstacleHazard : MonoBehaviour
     {
         Collider2D col = GetComponent<Collider2D>();
         if (col == null) return;
-        Gizmos.color = new Color(1f, 0f, 0f, 0.4f); // Red.
+        Gizmos.color = new Color(1f, 0f, 0f, 0.4f);
         Gizmos.DrawCube(col.bounds.center, col.bounds.size);
 
         if (hasLocalMovement)
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(transform.position, (Vector3)localMoveDirection * 1.5f);
+        }
+
+        // Draw patrol range in local space (visible in Scene view)
+        if (patrolVertical)
+        {
+            Gizmos.color = new Color(0f, 1f, 1f, 0.5f);
+            Vector3 top = transform.parent != null
+                ? transform.parent.TransformPoint(new Vector3(transform.localPosition.x, patrolMaxY, 0f))
+                : new Vector3(transform.position.x, patrolMaxY, 0f);
+            Vector3 bot = transform.parent != null
+                ? transform.parent.TransformPoint(new Vector3(transform.localPosition.x, patrolMinY, 0f))
+                : new Vector3(transform.position.x, patrolMinY, 0f);
+            Gizmos.DrawLine(top, bot);
+            Gizmos.DrawSphere(top, 0.1f);
+            Gizmos.DrawSphere(bot, 0.1f);
         }
     }
 }

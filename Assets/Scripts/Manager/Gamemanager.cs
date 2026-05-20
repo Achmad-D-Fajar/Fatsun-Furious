@@ -57,6 +57,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("AudioSource used to play sound effects (SFX).")]
     [SerializeField] private AudioSource sfxSource;
 
+    [Tooltip("BGM played on the Main Menu and Story screens. " +
+             "Drag your menu music clip here.")]
+    [SerializeField] private AudioClip menuBGM;
+
     [Tooltip("Sound played when the player successfully greets an NPC (Permisi!).")]
     [SerializeField] private AudioClip sfxGreeting;
 
@@ -137,11 +141,15 @@ public class GameManager : MonoBehaviour
         if (bgmSource == null && sources.Length > 1) bgmSource = sources[1];
 
         if (sfxSource != null) sfxSource.ignoreListenerPause = true;
+        // bgmSource respects AudioListener.pause (default) — used by TogglePause.
+        if (bgmSource != null) bgmSource.ignoreListenerPause = false;
 
         SaveSystem.InitializeSave();
         BGMEnabled = PlayerPrefs.GetInt("bgm_enabled", 1) == 1;
         SFXEnabled = PlayerPrefs.GetInt("sfx_enabled", 1) == 1;
-        ApplyAudioSettings();
+
+        // Play menu BGM immediately on boot.
+        PlayBGM(menuBGM);
     }
 
     private void Update()
@@ -198,6 +206,7 @@ public class GameManager : MonoBehaviour
     /// <summary>Called by LevelManager after the level prefab has been spawned.</summary>
     public void StartStory()
     {
+        PlayBGM(CurrentLevelData?.levelBGM ?? menuBGM); // Play menu music during the comic story screen.
         ChangeState(GameState.Story);
     }
 
@@ -218,7 +227,7 @@ public class GameManager : MonoBehaviour
         _timerRunning = true;
         ChangeState(GameState.Playing);
 
-        // Play level BGM.
+        // Switch to level BGM (stops menu BGM, starts level track with looping).
         PlayBGM(CurrentLevelData.levelBGM);
     }
 
@@ -228,13 +237,15 @@ public class GameManager : MonoBehaviour
         if (CurrentState == GameState.Playing)
         {
             _timerRunning = false;
-            Time.timeScale = 0f; // Freeze physics and animations.
+            Time.timeScale = 0f;
+            AudioListener.pause = true;   // Pauses bgmSource (ignoreListenerPause=false).
             ChangeState(GameState.Paused);
         }
         else if (CurrentState == GameState.Paused)
         {
             _timerRunning = true;
             Time.timeScale = 1f;
+            AudioListener.pause = false;  // Resumes bgmSource from where it stopped.
             ChangeState(GameState.Playing);
         }
     }
@@ -250,9 +261,12 @@ public class GameManager : MonoBehaviour
         _timerRunning  = false;
         GameOverReason = reason;
 
+        StopBGM();          // Silence the level music immediately.
+        PlaySFX(sfxCrash);  // Play crash / failure sound effect.
+
         ChangeState(GameState.GameOver);
         OnGameOver?.Invoke(reason);
-}
+    }
 
     /// <summary>
     /// The win entry-point. Called by the LevelFinishLine trigger.
@@ -282,6 +296,7 @@ public class GameManager : MonoBehaviour
     public void RetryLevel()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false; // Un-pause the listener if retrying from Paused state.
         ChangeState(GameState.MainMenu); // Reset state before reload.
         SceneManager.LoadScene(gameplaySceneName);
     }
@@ -290,7 +305,9 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false; // Safety: always un-pause the listener on scene exit.
         ChangeState(GameState.MainMenu);
+        PlayBGM(menuBGM);            // Restart menu music.
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
@@ -330,7 +347,10 @@ public class GameManager : MonoBehaviour
     {
         BGMEnabled = !BGMEnabled;
         PlayerPrefs.SetInt("bgm_enabled", BGMEnabled ? 1 : 0);
-        ApplyAudioSettings();
+        if (bgmSource == null) return;
+        // Un-pause/pause without restarting the clip from the beginning.
+        if (BGMEnabled) bgmSource.UnPause();
+        else            bgmSource.Pause();
     }
 
     public void ToggleSFX()
@@ -352,20 +372,39 @@ public class GameManager : MonoBehaviour
 
     public void PlayGreetingSFX() => PlaySFX(sfxGreeting);
 
+    /// <summary>
+    /// Stops the current BGM, assigns the new clip, enables looping, and plays it.
+    /// Safe to call with a null clip — stops BGM without starting a new track.
+    /// </summary>
     private void PlayBGM(AudioClip clip)
     {
         if (bgmSource == null) return;
-        if (clip != null) bgmSource.clip = clip;
+
+        // Always stop before switching clips to avoid overlapping audio.
+        bgmSource.Stop();
+
+        if (clip == null)
+        {
+            Debug.Log("[GameManager] PlayBGM called with null clip — BGM stopped.");
+            return;
+        }
+
+        bgmSource.clip = clip;
+        bgmSource.loop = true;
+
         if (BGMEnabled) bgmSource.Play();
+    }
+
+    /// <summary>Stops BGM playback immediately.</summary>
+    private void StopBGM()
+    {
+        if (bgmSource != null) bgmSource.Stop();
     }
 
     private void ApplyAudioSettings()
     {
-        if (bgmSource != null)
-        {
-            if (BGMEnabled) { if (!bgmSource.isPlaying) bgmSource.Play(); }
-            else bgmSource.Pause();
-        }
+        // No-op: BGM state is now fully controlled by PlayBGM/StopBGM/ToggleBGM.
+        // This stub is kept for future volume-slider support.
     }
 
     // ── Private Helpers ───────────────────────────────────────────────────────

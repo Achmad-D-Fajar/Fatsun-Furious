@@ -42,5 +42,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 3176068153
+    locked: 0
+  - name: Road
+    uniqueID: 2456263493
+    locked: 0
+  - name: Obstacle
+    uniqueID: 659515009
+    locked: 0
+  - name: Player
+    uniqueID: 1135310311
+    locked: 0
+  - name: VFX
+    uniqueID: 3041531213
+    locked: 0
+  - name: UI
+    uniqueID: 1157531865
+    locked: 0
   m_RenderingLayers:
   - Default
