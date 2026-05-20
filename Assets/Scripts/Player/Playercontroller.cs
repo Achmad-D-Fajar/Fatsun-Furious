@@ -85,6 +85,19 @@ public class PlayerController : MonoBehaviour
              "for the greeting to count. Prevents instant button taps.")]
     [SerializeField] private float minGreetHoldTime = 0.25f;
 
+    [Header("─── Turn Sprites ─────────────────────────────────")]
+    [Tooltip("Sprite ditampilkan saat player belok ke kiri.")]
+    [SerializeField] private Sprite spriteTurnLeft;
+
+    [Tooltip("Sprite ditampilkan saat player belok ke kanan.")]
+    [SerializeField] private Sprite spriteTurnRight;
+
+    [Tooltip("Sprite default saat player jalan lurus.")]
+    [SerializeField] private Sprite spriteDefault;
+
+    [Tooltip("Berapa detik sprite belok ditampilkan sebelum kembali ke default.")]
+    [SerializeField] private float turnSpriteDuration = 0.2f;
+
     // ── Public Read-Only State ────────────────────────────────────────────────
 
     /// <summary>Current speed state. Queried by hazard scripts (EtikaZone, PuddleHazard, etc.).</summary>
@@ -105,6 +118,7 @@ public class PlayerController : MonoBehaviour
     private float    _slowKeyHoldTimer   = 0f;
     private bool     _slowKeyHeld        = false;
     private Rigidbody2D _rb;
+    private Coroutine _turnSpriteCoroutine;
 
     // ── Input Actions (New Input System) ─────────────────────────────────────
     // Using Keyboard.current for simplicity. For full InputActionAsset workflow,
@@ -213,18 +227,41 @@ public class PlayerController : MonoBehaviour
     {
         int newIndex = CurrentLaneIndex + direction;
 
-        // newIndex < 0  → tried to enter left house wall  (col 1 / BORDER)
-        // newIndex >= 3 → tried to enter right house wall (col 5 / BORDER)
         if (newIndex < 0 || newIndex >= laneXPositions.Length)
         {
+            // Out-of-bounds — tampilkan sprite belok dulu, baru crash
+            ShowTurnSprite(direction);
             GameManager.Instance?.TriggerGameOver("NABRAK!");
             return;
         }
 
         CurrentLaneIndex = newIndex;
         _targetX         = laneXPositions[CurrentLaneIndex];
+        ShowTurnSprite(direction);
+    }
+    private void ShowTurnSprite(int direction)
+    {
+        if (playerSprite == null) return;
+
+        Sprite turnSprite = direction < 0 ? spriteTurnLeft : spriteTurnRight;
+        if (turnSprite == null) return;
+
+        // Stop coroutine sebelumnya kalau masih jalan
+        if (_turnSpriteCoroutine != null)
+            StopCoroutine(_turnSpriteCoroutine);
+
+        _turnSpriteCoroutine = StartCoroutine(TurnSpriteRoutine(turnSprite));
     }
 
+    private IEnumerator TurnSpriteRoutine(Sprite turnSprite)
+    {
+        playerSprite.sprite = turnSprite;
+        yield return new WaitForSeconds(turnSpriteDuration);
+
+        // Kembalikan ke sprite default setelah durasi habis
+        if (spriteDefault != null)
+            playerSprite.sprite = spriteDefault;
+    }
     // ==========================================================================
     //  Movement
     // ==========================================================================

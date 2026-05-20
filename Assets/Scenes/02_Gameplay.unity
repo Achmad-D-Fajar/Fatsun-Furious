@@ -2245,6 +2245,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1040493178
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 843655030386072619, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696215653839398054, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
+      propertyPath: m_Name
+      value: Level_1_Layout
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6603a9d3109412745baf49665ef73f59, type: 3}
 --- !u!1 &1047142015
 GameObject:
   m_ObjectHideFlags: 0
@@ -3275,6 +3332,10 @@ MonoBehaviour:
   slowTint: {r: 0.5, g: 0.8, b: 1, a: 1}
   normalTint: {r: 1, g: 1, b: 1, a: 1}
   minGreetHoldTime: 0.25
+  spriteTurnLeft: {fileID: 4969274453553184, guid: f2d220712f1e6dd4b86eb4a4f062d3ef, type: 3}
+  spriteTurnRight: {fileID: 4457715365293352316, guid: 28777ca054437f74f87088880355cf71, type: 3}
+  spriteDefault: {fileID: -3979382457284704013, guid: 0b55cf6cf6ae94c4ab0c6149f821f589, type: 3}
+  turnSpriteDuration: 0.2
 --- !u!60 &1500529733
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3765,7 +3826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4091,7 +4152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
-  m_IgnoreReversedGraphics: 1
+  m_IgnoreReversedGraphics: 0
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
@@ -5338,3 +5399,4 @@ SceneRoots:
   - {fileID: 1022006270}
   - {fileID: 1273851801}
   - {fileID: 1659882416}
+  - {fileID: 1040493178}
