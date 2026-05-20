@@ -66,6 +66,14 @@ public class GameManager : MonoBehaviour
     [Tooltip("Sound played when a level is completed.")]
     [SerializeField] private AudioClip sfxLevelComplete;
 
+    [Header("─── Crash VFX ───────────────────────────────────")]
+    [Tooltip("Prefab VFX 💥 yang muncul saat player crash. " +
+            "Drag prefab CrashVFX ke sini.")]
+    [SerializeField] private GameObject crashVFXPrefab;
+
+    [Tooltip("Sorting Order layer VFX agar muncul di atas semua sprite.")]
+    [SerializeField] private int crashVFXSortingOrder = 10;
+
     // ── Public Read-Only State ────────────────────────────────────────────────
 
     /// <summary>Current game state. Read-only externally; changed via ChangeState().</summary>
@@ -242,18 +250,32 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void TriggerGameOver(string reason)
     {
-        if (CurrentState == GameState.GameOver) return; // Prevent double-trigger.
+        if (CurrentState == GameState.GameOver) return;
 
         _timerRunning = false;
-        Time.timeScale = 0f; // Freeze the world immediately.
+        Time.timeScale = 0f;
         GameOverReason = reason;
 
-        PlaySFX(sfxCrash);
+        // ── Spawn Crash VFX di posisi player ──────────────────────────────
+        SpawnCrashVFX();
 
+        PlaySFX(sfxCrash);
         ChangeState(GameState.GameOver);
         OnGameOver?.Invoke(reason);
 
         Debug.Log($"[GameManager] GAME OVER — {reason}");
+    }
+
+    private void SpawnCrashVFX()
+    {
+        if (crashVFXPrefab == null || PlayerController.Instance == null) return;
+
+        Vector3 spawnPos = PlayerController.Instance.transform.position;
+        GameObject vfx   = Instantiate(crashVFXPrefab, spawnPos, Quaternion.identity);
+
+        // Pastikan VFX render di atas semua sprite
+        SpriteRenderer sr = vfx.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.sortingOrder = crashVFXSortingOrder;
     }
 
     /// <summary>
