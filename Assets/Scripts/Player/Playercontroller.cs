@@ -98,6 +98,19 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Berapa detik sprite belok ditampilkan sebelum kembali ke default.")]
     [SerializeField] private float turnSpriteDuration = 0.2f;
 
+    [Header("─── VFX ─────────────────────────────────────────")]
+    [Tooltip("Transform di ujung depan player. Buat child empty GO bernama 'VFXSpawnPoint'.")]
+    [SerializeField] private Transform vfxSpawnPoint;
+
+    [Tooltip("Prefab VFX 💥 crash. Muncul saat player nabrak obstacle.")]
+    [SerializeField] private GameObject crashVFXPrefab;
+
+    [Tooltip("Prefab VFX 💦 splash. Muncul saat player lewat puddle.")]
+    [SerializeField] private GameObject splashVFXPrefab;
+
+    [Tooltip("Sorting order VFX agar muncul di atas semua sprite.")]
+    [SerializeField] private int vfxSortingOrder = 10;
+
     // ── Public Read-Only State ────────────────────────────────────────────────
 
     /// <summary>Current speed state. Queried by hazard scripts (EtikaZone, PuddleHazard, etc.).</summary>
@@ -349,5 +362,54 @@ public class PlayerController : MonoBehaviour
                 new Vector3(0.6f, 0.8f, 0f)
             );
         }
+    }
+    // ==========================================================================
+    //  VFX Spawning — dipanggil oleh Hazard scripts
+    // ==========================================================================
+
+    /// <summary>
+    /// Spawn crash VFX 💥 di posisi spawn point player.
+    /// Dipanggil oleh ObstacleHazard, SpeedBumpHazard, EtikaZone saat game over.
+    /// </summary>
+    public void SpawnCrashVFX()
+    {
+        SpawnVFX(crashVFXPrefab);
+    }
+
+    /// <summary>
+    /// Spawn splash VFX 💦 di posisi spawn point player.
+    /// isDirty = true  → coklat kotor (nyiprat/terpeleset).
+    /// isDirty = false → biru bersih (safe pass).
+    /// </summary>
+    public void SpawnSplashVFX(bool isDirty)
+    {
+        GameObject vfx = SpawnVFX(splashVFXPrefab);
+        if (vfx == null) return;
+
+        SplashVFX splash = vfx.GetComponent<SplashVFX>();
+        if (splash != null) splash.Init(isDirty);
+    }
+
+    /// <summary>Internal spawner — instantiate prefab di vfxSpawnPoint.</summary>
+    private GameObject SpawnVFX(GameObject prefab)
+    {
+        if (prefab == null)
+        {
+            Debug.LogWarning("[PlayerController] VFX prefab not assigned!");
+            return null;
+        }
+
+        // Gunakan vfxSpawnPoint kalau ada, fallback ke posisi player
+        Vector3 spawnPos = vfxSpawnPoint != null
+                        ? vfxSpawnPoint.position
+                        : transform.position;
+
+        GameObject vfx = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+        // Pastikan render di atas semua sprite
+        SpriteRenderer sr = vfx.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.sortingOrder = vfxSortingOrder;
+
+        return vfx;
     }
 }

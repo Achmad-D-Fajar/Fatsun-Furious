@@ -69,14 +69,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("SFX pendek saat player menekan tombol UI apapun.")]
     [SerializeField] private AudioClip sfxButtonClick;
 
-    [Header("─── Crash VFX ───────────────────────────────────")]
-    [Tooltip("Prefab VFX 💥 yang muncul saat player crash. " +
-            "Drag prefab CrashVFX ke sini.")]
-    [SerializeField] private GameObject crashVFXPrefab;
-
-    [Tooltip("Sorting Order layer VFX agar muncul di atas semua sprite.")]
-    [SerializeField] private int crashVFXSortingOrder = 10;
-
     // ── Public Read-Only State ────────────────────────────────────────────────
 
     /// <summary>Current game state. Read-only externally; changed via ChangeState().</summary>
@@ -258,25 +250,9 @@ public class GameManager : MonoBehaviour
         _timerRunning  = false;
         GameOverReason = reason;
 
-        SpawnCrashVFX();
-        PlaySFX(sfxCrash); // ← play BEFORE freezing time
-        Time.timeScale = 0f; // ← freeze AFTER
-
         ChangeState(GameState.GameOver);
         OnGameOver?.Invoke(reason);
 }
-
-    private void SpawnCrashVFX()
-    {
-        if (crashVFXPrefab == null || PlayerController.Instance == null) return;
-
-        Vector3 spawnPos = PlayerController.Instance.transform.position;
-        GameObject vfx   = Instantiate(crashVFXPrefab, spawnPos, Quaternion.identity);
-
-        // Pastikan VFX render di atas semua sprite
-        SpriteRenderer sr = vfx.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.sortingOrder = crashVFXSortingOrder;
-    }
 
     /// <summary>
     /// The win entry-point. Called by the LevelFinishLine trigger.
