@@ -125,8 +125,9 @@ public class UIManager : MonoBehaviour
 
     // ── Private State ─────────────────────────────────────────────────────────
 
-    private int  _currentStoryPage = 0;
-    private bool _timerPulsing     = false;
+    private int      _currentStoryPage    = 0;
+    private bool     _timerPulsing        = false;
+    private Coroutine _greetingCoroutine  = null; // Stored so we can safely stop it.
 
     // ==========================================================================
     //  Unity Lifecycle
@@ -331,15 +332,24 @@ public class UIManager : MonoBehaviour
     public void ShowGreetingFeedback()
     {
         if (greetingBubble == null) return;
-        StopCoroutine(nameof(HideGreetingBubble));
+
+        // Only stop the hide timer if it's actually running — avoids the
+        // "coroutine not running" exception that killed the bubble on first use.
+        if (_greetingCoroutine != null)
+        {
+            StopCoroutine(_greetingCoroutine);
+            _greetingCoroutine = null;
+        }
+
         greetingBubble.SetActive(true);
-        StartCoroutine(HideGreetingBubble());
+        _greetingCoroutine = StartCoroutine(HideGreetingBubble());
     }
 
     private IEnumerator HideGreetingBubble()
     {
         yield return new WaitForSeconds(greetingBubbleDuration);
         if (greetingBubble != null) greetingBubble.SetActive(false);
+        _greetingCoroutine = null;
     }
 
     // ==========================================================================
