@@ -22,4 +22,4 @@ MonoBehaviour:
   accelerateMultiplier: 1.7
   slowMultiplier: 0.7
   levelBGM: {fileID: 8300000, guid: 9dcd3f037dea5f540a140b7563b8351a, type: 3}
-  levelBGMVolume: 1
+  levelBGMVolume: 0.5

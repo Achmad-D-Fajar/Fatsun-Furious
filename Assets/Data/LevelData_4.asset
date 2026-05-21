@@ -17,9 +17,9 @@ MonoBehaviour:
   levelLayoutPrefab: {fileID: 2696215653839398054, guid: 57a3b6c8c6db2a84eaa238f971ddd5df, type: 3}
   storyComicPages:
   - {fileID: -2895157278119961449, guid: bb765f23bae30ce4088bf95a41e5a5c7, type: 3}
-  timeLimitSeconds: 30
+  timeLimitSeconds: 45
   baseScrollSpeed: 5
   accelerateMultiplier: 1.7
   slowMultiplier: 0.7
   levelBGM: {fileID: 8300000, guid: 8464a588957c44f4999cc995580e97cc, type: 3}
-  levelBGMVolume: 1
+  levelBGMVolume: 0.5
