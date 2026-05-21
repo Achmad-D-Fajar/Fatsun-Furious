@@ -56,6 +56,16 @@ public class EtikaZone : MonoBehaviour
         _failTriggered = false;
         _graceTimer    = 0f;
 
+        // Instant fail if player enters the zone while already accelerating.
+        // No grace period — accelerating through an NPC zone is always disrespectful.
+        PlayerController player = PlayerController.Instance;
+        if (player != null && player.CurrentSpeedState == SpeedState.Accelerate)
+        {
+            _failTriggered = true;
+            GameManager.Instance?.TriggerGameOver(failureReason);
+            return;
+        }
+
         Debug.Log($"[EtikaZone] Player entered zone of '{transform.parent?.name ?? gameObject.name}'.");
     }
 
@@ -64,14 +74,22 @@ public class EtikaZone : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         if (IsGameNotPlaying() || _failTriggered) return;
 
-        // Count up the grace period timer.
-        _graceTimer += Time.deltaTime;
-        if (_graceTimer < entryGracePeriod) return;
-
-        // Grace period expired — now enforce the etika check.
         PlayerController player = PlayerController.Instance;
         if (player == null) return;
 
+        // Accelerating inside the zone = instant fail, no grace period needed.
+        if (player.CurrentSpeedState == SpeedState.Accelerate)
+        {
+            _failTriggered = true;
+            GameManager.Instance?.TriggerGameOver(failureReason);
+            return;
+        }
+
+        // Count up the grace period timer for the non-accelerating case.
+        _graceTimer += Time.deltaTime;
+        if (_graceTimer < entryGracePeriod) return;
+
+        // Grace period expired — now enforce the full etika check.
         bool isSlowing  = player.CurrentSpeedState == SpeedState.Slow;
         bool isGreeting = player.IsActivelyGreeting;
 

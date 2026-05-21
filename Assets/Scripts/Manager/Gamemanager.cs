@@ -138,7 +138,8 @@ public class GameManager : MonoBehaviour
 
     // ── Private State ─────────────────────────────────────────────────────────
 
-    private bool _timerRunning = false;
+    private bool _timerRunning      = false;
+    private int  _lastClickSFXFrame = -1;
 
     // ==========================================================================
     //  Unity Lifecycle
@@ -184,6 +185,14 @@ public class GameManager : MonoBehaviour
                 TriggerGameOver("TELAT!");
             }
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        // Always reset audio toggles to ON so the next session always boots with sound.
+        PlayerPrefs.SetInt("bgm_enabled", 1);
+        PlayerPrefs.SetInt("sfx_enabled", 1);
+        PlayerPrefs.Save();
     }
 
     // ==========================================================================
@@ -366,9 +375,22 @@ public class GameManager : MonoBehaviour
     {
         BGMEnabled = !BGMEnabled;
         PlayerPrefs.SetInt("bgm_enabled", BGMEnabled ? 1 : 0);
+        PlayerPrefs.Save();
         if (bgmSource == null) return;
-        if (BGMEnabled) bgmSource.UnPause();
-        else            bgmSource.Pause();
+        if (BGMEnabled)
+        {
+            if (bgmSource.clip != null && !bgmSource.isPlaying)
+            {
+                // UnPause() only works if the source was Pause()'d mid-playback.
+                // If it was Stop()'d (e.g. BGM was off at boot), fall back to Play().
+                bgmSource.UnPause();
+                if (!bgmSource.isPlaying) bgmSource.Play();
+            }
+        }
+        else
+        {
+            bgmSource.Pause();
+        }
     }
 
     public void ToggleSFX()
@@ -391,8 +413,16 @@ public class GameManager : MonoBehaviour
     /// <summary>Convenience: plays the greeting SFX at its configured volume.</summary>
     public void PlayGreetingSFX() => PlaySFX(sfxGreeting, sfxGreetingVolume);
 
-    /// <summary>Convenience: plays the button click SFX at its configured volume.</summary>
-    public void PlayButtonClickSFX() => PlaySFX(sfxButtonClick, sfxButtonClickVolume);
+    /// <summary>
+    /// Plays the button click SFX. Frame-dedup guard prevents double-firing
+    /// if multiple onClick listeners call this in the same frame.
+    /// </summary>
+    public void PlayButtonClickSFX()
+    {
+        if (Time.frameCount == _lastClickSFXFrame) return;
+        _lastClickSFXFrame = Time.frameCount;
+        PlaySFX(sfxButtonClick, sfxButtonClickVolume);
+    }
 
     /// <summary>
     /// Stops the current BGM, assigns the new clip, and plays it at the given volume.

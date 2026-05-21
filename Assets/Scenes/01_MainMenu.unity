@@ -5892,8 +5892,8 @@ MonoBehaviour:
   menuBGM: {fileID: 8300000, guid: 1829c0873b7859e44909dfc17f0de505, type: 3}
   menuBGMVolume: 0.35
   levelBGMVolume: 0.35
-  sfxGreeting: {fileID: 0}
-  sfxGreetingVolume: 1
+  sfxGreeting: {fileID: 8300000, guid: 460b4358c81b29345b785db92241f9fa, type: 3}
+  sfxGreetingVolume: 0.8
   sfxCrash: {fileID: 8300000, guid: ee53962ffc1db1d4199ac49d0c8c4d78, type: 3}
   sfxCrashVolume: 0.8
   sfxLevelComplete: {fileID: 8300000, guid: c3a106d933163494eb0c1c422d423854, type: 3}
@@ -6533,6 +6533,8 @@ MonoBehaviour:
   - {fileID: 1154791023}
   - {fileID: 1162324140}
   - {fileID: 483757952}
+  bgmToggle: {fileID: 0}
+  sfxToggle: {fileID: 0}
   storyComicImage: {fileID: 0}
   storyContinueText: {fileID: 0}
   greetingBubble: {fileID: 0}

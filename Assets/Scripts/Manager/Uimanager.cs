@@ -114,6 +114,15 @@ public class UIManager : MonoBehaviour
     [Tooltip("Duration in seconds the greeting bubble stays visible.")]
     [SerializeField] private float greetingBubbleDuration = 0.8f;
 
+    // ── Audio Toggle Buttons ──────────────────────────────────────────────────
+
+    [Header("─── Audio Toggles ──────────────────────────────────")]
+    [Tooltip("Drag the BGM Toggle component here. Must be a Unity UI Toggle, not a Button.")]
+    [SerializeField] private Toggle bgmToggle;
+
+    [Tooltip("Drag the SFX Toggle component here.")]
+    [SerializeField] private Toggle sfxToggle;
+
     // ── Private State ─────────────────────────────────────────────────────────
 
     private int  _currentStoryPage = 0;
@@ -149,13 +158,23 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        // Show the correct panel based on the initial state.
         HandleStateChanged(GameManager.Instance != null
             ? GameManager.Instance.CurrentState
             : GameState.MainMenu);
 
-        // Refresh level node visuals on load.
         RefreshLevelSelectUI();
+
+        // Sync immediately, then again next frame as safety net —
+        // Unity Toggle visuals can re-draw themselves after Start() and
+        // overwrite an immediate sync.
+        SyncAudioToggleVisuals();
+        StartCoroutine(SyncAudioTogglesNextFrame());
+    }
+
+    private IEnumerator SyncAudioTogglesNextFrame()
+    {
+        yield return null; // Wait one frame for Toggle components to settle.
+        SyncAudioToggleVisuals();
     }
 
     // ==========================================================================
@@ -175,6 +194,7 @@ public class UIManager : MonoBehaviour
             case GameState.MainMenu:
                 ShowPanel(mainMenuPanel);
                 RefreshLevelSelectUI();
+                SyncAudioToggleVisuals(); // Re-sync toggles every time the menu opens.
                 break;
 
             case GameState.Story:
@@ -284,6 +304,7 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance?.PlayButtonClickSFX();
         if (GameManager.Instance?.CurrentLevelData == null) return;
+
         Sprite[] pages = GameManager.Instance.CurrentLevelData.storyComicPages;
         int totalPages = pages != null ? pages.Length : 0;
 
@@ -383,12 +404,14 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance?.PlayButtonClickSFX();
         GameManager.Instance?.ToggleBGM();
+        SyncAudioToggleVisuals();
     }
 
     public void OnToggleSFX()
     {
         GameManager.Instance?.PlayButtonClickSFX();
         GameManager.Instance?.ToggleSFX();
+        SyncAudioToggleVisuals();
     }
 
     // ── Gameplay / HUD ────────────────────────────────────────────────────────
@@ -464,6 +487,27 @@ public class UIManager : MonoBehaviour
     // ==========================================================================
     //  Private Helpers
     // ==========================================================================
+
+    /// <summary>
+    /// Reads BGMEnabled/SFXEnabled from GameManager and sets the toggle visuals
+    /// WITHOUT firing onValueChanged (which would flip the state back).
+    /// Called on scene load, on every return to main menu, and after each toggle press.
+    /// </summary>
+    private void SyncAudioToggleVisuals()
+    {
+        if (GameManager.Instance == null) return;
+
+        if (bgmToggle != null)
+            bgmToggle.SetIsOnWithoutNotify(GameManager.Instance.BGMEnabled);
+        else
+            Debug.LogWarning("[UIManager] bgmToggle is not assigned in the Inspector. " +
+                             "Drag the BGM Toggle component into the 'Bgm Toggle' field.");
+
+        if (sfxToggle != null)
+            sfxToggle.SetIsOnWithoutNotify(GameManager.Instance.SFXEnabled);
+        else
+            Debug.LogWarning("[UIManager] sfxToggle is not assigned in the Inspector.");
+    }
 
     private void SetAllPanelsInactive()
     {
