@@ -334,6 +334,14 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         AudioListener.pause = false; // Safety: always un-pause the listener on scene exit.
+
+        // Force BGM and SFX back to ON
+        BGMEnabled = true;
+        SFXEnabled = true;
+        PlayerPrefs.SetInt("bgm_enabled", 1);
+        PlayerPrefs.SetInt("sfx_enabled", 1);
+        PlayerPrefs.Save();
+
         ChangeState(GameState.MainMenu);
         PlayBGM(menuBGM, menuBGMVolume);  // Restart menu music.
         SceneManager.LoadScene(mainMenuSceneName);

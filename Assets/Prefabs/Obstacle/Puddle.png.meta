@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: caa0c8da213759a45bfb8c3c21e43bb1
+guid: a148c83bf5c55d2409ee34d3f567eee4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -630047208743825461
-    second: "\u2014Pngtree\u2014otter_5648430_0"
-  - first:
-      213: 7873227253403528117
-    second: "\u2014Pngtree\u2014otter_5648430_1"
-  - first:
-      213: 9049088836375615385
-    second: "\u2014Pngtree\u2014otter_5648430_2"
-  - first:
-      213: 8024156982502700021
-    second: "\u2014Pngtree\u2014otter_5648430_3"
-  - first:
-      213: -19096587236010044
-    second: "\u2014Pngtree\u2014otter_5648430_4"
+      213: -9111024324587357560
+    second: Puddle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -138,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u2014Pngtree\u2014otter_5648430_0"
+      name: Puddle_0
       rect:
         serializedVersion: 2
-        x: 47
-        y: 536
-        width: 33
-        height: 21
+        x: 20
+        y: 0
+        width: 359
+        height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,96 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bcf091bd66f9147f0800000000000000
-      internalID: -630047208743825461
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\u2014Pngtree\u2014otter_5648430_1"
-      rect:
-        serializedVersion: 2
-        x: 57
-        y: 542
-        width: 39
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5bbaa0b0972534d60800000000000000
-      internalID: 7873227253403528117
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\u2014Pngtree\u2014otter_5648430_2"
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 421
-        width: 831
-        height: 152
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9971f114a52d49d70800000000000000
-      internalID: 9049088836375615385
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\u2014Pngtree\u2014otter_5648430_3"
-      rect:
-        serializedVersion: 2
-        x: 919
-        y: 474
-        width: 35
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5f33b0403488b5f60800000000000000
-      internalID: 8024156982502700021
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\u2014Pngtree\u2014otter_5648430_4"
-      rect:
-        serializedVersion: 2
-        x: 930
-        y: 471
-        width: 18
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4c7106d41c72cbff0800000000000000
-      internalID: -19096587236010044
+      spriteID: 88af60926a32f8180800000000000000
+      internalID: -9111024324587357560
       vertices: []
       indices: 
       edges: []
@@ -261,11 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\u2014Pngtree\u2014otter_5648430_0": -630047208743825461
-      "\u2014Pngtree\u2014otter_5648430_1": 7873227253403528117
-      "\u2014Pngtree\u2014otter_5648430_2": 9049088836375615385
-      "\u2014Pngtree\u2014otter_5648430_3": 8024156982502700021
-      "\u2014Pngtree\u2014otter_5648430_4": -19096587236010044
+      Puddle_0: -9111024324587357560
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

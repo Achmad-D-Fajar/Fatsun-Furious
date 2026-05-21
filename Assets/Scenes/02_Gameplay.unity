@@ -1218,7 +1218,7 @@ MonoBehaviour:
   levelCompletePanel: {fileID: 364671229}
   finalCompletePanel: {fileID: 1586362249}
   exitConfirmPanel: {fileID: 0}
-  timerText: {fileID: 1400509625}
+  timerText: {fileID: 2006887279}
   timerWarningThreshold: 10
   timerWarningColor: {r: 1, g: 0, b: 0, a: 1}
   timerNormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1227,12 +1227,12 @@ MonoBehaviour:
   finalTimeTexts: []
   finalTotalTimeText: {fileID: 1594676528}
   levelNodes: []
-  bgmToggle: {fileID: 0}
-  sfxToggle: {fileID: 0}
   storyComicImage: {fileID: 1572400294}
   storyContinueText: {fileID: 944325766}
   greetingBubble: {fileID: 1591025594}
   greetingBubbleDuration: 0.8
+  bgmToggle: {fileID: 0}
+  sfxToggle: {fileID: 0}
 --- !u!4 &548334847
 Transform:
   m_ObjectHideFlags: 0
@@ -3275,8 +3275,9 @@ GameObject:
   - component: {fileID: 1500529736}
   - component: {fileID: 1500529735}
   - component: {fileID: 1500529734}
-  - component: {fileID: 1500529733}
   - component: {fileID: 1500529732}
+  - component: {fileID: 1500529738}
+  - component: {fileID: 1500529737}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -3316,58 +3317,6 @@ MonoBehaviour:
   crashVFXPrefab: {fileID: 8230993406796476396, guid: 08807a426f2bfaa449eb09612d5d5723, type: 3}
   splashVFXPrefab: {fileID: 8866631463774995972, guid: 3a6c53285f0c2274798fb58c14f24f78, type: 3}
   vfxSortingOrder: 10
---- !u!60 &1500529733
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500529731}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.26, y: 11.66}
-    newSize: {x: 5.26, y: 11.66}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 1}
-      - {x: -0.95105654, y: 0.30901697}
-      - {x: -0.5877852, y: -0.80901706}
-      - {x: 0.58778536, y: -0.80901694}
-      - {x: 0.9510565, y: 0.30901712}
-  m_UseDelaunayMesh: 1
 --- !u!50 &1500529734
 Rigidbody2D:
   serializedVersion: 5
@@ -3463,13 +3412,87 @@ Transform:
   m_GameObject: {fileID: 1500529731}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: -3.5, z: -1}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalPosition: {x: -9.9779, y: -3.5, z: -1}
+  m_LocalScale: {x: 0.19158, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1414687313}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1500529737
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500529731}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.11466195, y: -2.0915008}
+  m_Size: {x: 0.58159304, y: 7.916355}
+  m_Direction: 0
+--- !u!70 &1500529738
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500529731}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.022930896, y: 3.0205846}
+  m_Size: {x: 3.1042702, y: 5.6188297}
+  m_Direction: 0
 --- !u!1 &1535857007
 GameObject:
   m_ObjectHideFlags: 0
@@ -3814,8 +3837,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 2639949912549806029, guid: d93b57e4ad25d4443af7796e6a87cb27, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4994,10 +5017,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 353011832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 750}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -300}
+  m_SizeDelta: {x: 400, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2006887279
 MonoBehaviour:
@@ -5046,15 +5069,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
