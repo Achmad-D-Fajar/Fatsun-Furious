@@ -20,6 +20,6 @@ MonoBehaviour:
   timeLimitSeconds: 60
   baseScrollSpeed: 5
   accelerateMultiplier: 1.7
-  slowMultiplier: 0.3
+  slowMultiplier: 0.7
   levelBGM: {fileID: 8300000, guid: f275fa5456606f54d827e8ae46ba4746, type: 3}
   levelBGMVolume: 1
