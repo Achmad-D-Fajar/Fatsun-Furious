@@ -198,6 +198,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void SelectLevel(int levelIndex)
     {
+        GameManager.Instance?.PlayButtonClickSFX();
         if (levelIndex < 0 || levels == null || levelIndex >= levels.Length)
         {
             Debug.LogError($"[GameManager] Invalid level index: {levelIndex}");
@@ -221,6 +222,7 @@ public class GameManager : MonoBehaviour
     /// <summary>Called by LevelManager after the level prefab has been spawned.</summary>
     public void StartStory()
     {
+        GameManager.Instance?.PlayButtonClickSFX();
         PlayBGM(CurrentLevelData?.levelBGM ?? menuBGM,
                 CurrentLevelData?.levelBGM != null ? CurrentLevelData.levelBGMVolume : menuBGMVolume);
         ChangeState(GameState.Story);
@@ -229,6 +231,7 @@ public class GameManager : MonoBehaviour
     /// <summary>Called by UIManager when the player clicks "Continue" on the story screen.</summary>
     public void StartPlaying()
     {
+        GameManager.Instance?.PlayButtonClickSFX();
         if (CurrentLevelData == null)
         {
             Debug.LogError("[GameManager] No LevelData set — cannot start playing.");
@@ -249,6 +252,7 @@ public class GameManager : MonoBehaviour
     /// <summary>Pauses or resumes the game. Toggle-safe.</summary>
     public void TogglePause()
     {
+        GameManager.Instance?.PlayButtonClickSFX();
         if (CurrentState == GameState.Playing)
         {
             _timerRunning = false;

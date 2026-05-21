@@ -1717,7 +1717,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1784067883}
+      - m_Target: {fileID: 2096786294}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: 
         m_Mode: 1
@@ -5890,16 +5890,16 @@ MonoBehaviour:
   bgmSource: {fileID: 1657683247}
   sfxSource: {fileID: 672476009}
   menuBGM: {fileID: 8300000, guid: 1829c0873b7859e44909dfc17f0de505, type: 3}
-  menuBGMVolume: 1
-  levelBGMVolume: 1
+  menuBGMVolume: 0.35
+  levelBGMVolume: 0.35
   sfxGreeting: {fileID: 0}
   sfxGreetingVolume: 1
   sfxCrash: {fileID: 8300000, guid: ee53962ffc1db1d4199ac49d0c8c4d78, type: 3}
-  sfxCrashVolume: 1
+  sfxCrashVolume: 0.8
   sfxLevelComplete: {fileID: 8300000, guid: c3a106d933163494eb0c1c422d423854, type: 3}
-  sfxLevelCompleteVolume: 1
+  sfxLevelCompleteVolume: 0.8
   sfxButtonClick: {fileID: 8300000, guid: 8d711a2345f5ca746ba1aac190e57aa9, type: 3}
-  sfxButtonClickVolume: 1
+  sfxButtonClickVolume: 0.8
 --- !u!4 &1784067885
 Transform:
   m_ObjectHideFlags: 0

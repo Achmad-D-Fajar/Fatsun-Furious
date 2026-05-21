@@ -282,8 +282,8 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void OnStoryPanelClicked()
     {
+        GameManager.Instance?.PlayButtonClickSFX();
         if (GameManager.Instance?.CurrentLevelData == null) return;
-
         Sprite[] pages = GameManager.Instance.CurrentLevelData.storyComicPages;
         int totalPages = pages != null ? pages.Length : 0;
 
@@ -350,13 +350,20 @@ public class UIManager : MonoBehaviour
     // ── Main Menu / Level Select ───────────────────────────────────────────────
 
     public void OnLevelNodePressed(int levelIndex)
-        => GameManager.Instance?.SelectLevel(levelIndex);
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.SelectLevel(levelIndex);
+    }
 
     public void OnExitPressed()
-        => ShowPanel(exitConfirmPanel);
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        ShowPanel(exitConfirmPanel);
+    }
 
     public void OnExitConfirmed()
     {
+        GameManager.Instance?.PlayButtonClickSFX();
     #if UNITY_EDITOR
     UnityEditor.EditorApplication.isPlaying = false; // Stops Play mode in Editor
     #elif UNITY_WEBGL
@@ -367,53 +374,90 @@ public class UIManager : MonoBehaviour
     }
 
     public void OnExitCancelled()
-        => HidePanel(exitConfirmPanel);
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        HidePanel(exitConfirmPanel);
+    }
 
     public void OnToggleBGM()
-        => GameManager.Instance?.ToggleBGM();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.ToggleBGM();
+    }
 
     public void OnToggleSFX()
-        => GameManager.Instance?.ToggleSFX();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.ToggleSFX();
+    }
 
     // ── Gameplay / HUD ────────────────────────────────────────────────────────
 
     public void OnPausePressed()
-        => GameManager.Instance?.TogglePause();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.TogglePause();
+    }
 
     // ── Pause Screen ──────────────────────────────────────────────────────────
 
     public void OnResumePressed()
-        => GameManager.Instance?.TogglePause();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.TogglePause();
+    }
 
     public void OnRestartFromPause()
-        => GameManager.Instance?.RetryLevel();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.RetryLevel();
+    }
 
     public void OnQuitToMenuFromPause()
-        => GameManager.Instance?.GoToMainMenu();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.GoToMainMenu();
+    }
 
     // ── Game Over Screen ──────────────────────────────────────────────────────
 
     public void OnRetryFromGameOver()
-        => GameManager.Instance?.RetryLevel();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.RetryLevel();
+    }
 
     public void OnMenuFromGameOver()
-        => GameManager.Instance?.GoToMainMenu();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.GoToMainMenu();
+    }
 
     // ── Level Complete Screen ─────────────────────────────────────────────────
 
     public void OnNextLevelPressed()
-        => GameManager.Instance?.GoToNextLevel();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.GoToNextLevel();
+    }
 
     public void OnRetryLevelPressed()
-        => GameManager.Instance?.RetryLevel();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.RetryLevel();
+    }
 
     public void OnMenuFromComplete()
-        => GameManager.Instance?.GoToMainMenu();
+    {
+        GameManager.Instance?.PlayButtonClickSFX();
+        GameManager.Instance?.GoToMainMenu();
+    }
 
     // ── Final Win Screen ──────────────────────────────────────────────────────
 
     public void OnRetryFromLevel1()
     {
+        GameManager.Instance?.PlayButtonClickSFX();
         GameManager.Instance?.SelectLevel(0);
     }
 
@@ -483,6 +527,7 @@ public class UIManager : MonoBehaviour
     /// <summary>Called by the Restart/New Game button on the Main Menu.</summary>
     public void OnRestartGamePressed()
     {
+        GameManager.Instance?.PlayButtonClickSFX();
         SaveSystem.ResetProgress();
         RefreshLevelSelectUI(); // Immediately updates the level node visuals on screen
     }
