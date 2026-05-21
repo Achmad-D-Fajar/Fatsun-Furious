@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7258852823534196293}
+  - component: {fileID: 5069028267191326261}
   m_Layer: 2
   m_Name: PNSvertM
   m_TagString: Untagged
@@ -33,6 +34,30 @@ Transform:
   - {fileID: 355503114889487094}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5069028267191326261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148081752952320786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76a4de3826d23f4db0b0494c9321445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleHazard
+  obstacleName: Obstacle
+  failureReason: NABRAK!
+  hasLocalMovement: 0
+  localMoveDirection: {x: 1, y: 0}
+  moveSpeed: 2
+  bounceHorizontal: 0
+  bounceMinX: -1.8
+  bounceMaxX: 1.8
+  patrolVertical: 0
+  patrolMaxY: 1.5
+  patrolMinY: -1.5
+  startMovingUp: 1
 --- !u!1 &4621903949270671877
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +68,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4982504596041788800}
   - component: {fileID: 6243314794809912758}
-  - component: {fileID: 8451928940988091844}
   - component: {fileID: 3410294088744674417}
   m_Layer: 2
   m_Name: PNSvert
@@ -126,30 +150,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &8451928940988091844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4621903949270671877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a76a4de3826d23f4db0b0494c9321445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObstacleHazard
-  obstacleName: Obstacle
-  failureReason: NABRAK!
-  hasLocalMovement: 0
-  localMoveDirection: {x: 0, y: 1}
-  moveSpeed: 1
-  bounceHorizontal: 0
-  bounceMinX: -0.1
-  bounceMaxX: 0.1
-  patrolVertical: 0
-  patrolMaxY: 45
-  patrolMinY: 41
-  startMovingUp: 0
 --- !u!60 &3410294088744674417
 PolygonCollider2D:
   m_ObjectHideFlags: 0

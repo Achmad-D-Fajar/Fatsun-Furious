@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8550122188836817147}
   - component: {fileID: 2606975324160456964}
-  - component: {fileID: 5307642223619502366}
   - component: {fileID: 3965866149833941447}
   m_Layer: 2
   m_Name: Guyvert
@@ -93,30 +92,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5307642223619502366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4551759288463072842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a76a4de3826d23f4db0b0494c9321445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObstacleHazard
-  obstacleName: Obstacle
-  failureReason: NABRAK!
-  hasLocalMovement: 0
-  localMoveDirection: {x: 0, y: 1}
-  moveSpeed: 1
-  bounceHorizontal: 0
-  bounceMinX: -0.1
-  bounceMaxX: 0.1
-  patrolVertical: 0
-  patrolMaxY: 45
-  patrolMinY: 41
-  startMovingUp: 0
 --- !u!60 &3965866149833941447
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -274,6 +249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7455516338490381501}
+  - component: {fileID: 8628171684962284481}
   m_Layer: 2
   m_Name: GuyvertL
   m_TagString: Untagged
@@ -298,6 +274,30 @@ Transform:
   - {fileID: 4121072778584044574}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8628171684962284481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8717395287396537323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76a4de3826d23f4db0b0494c9321445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleHazard
+  obstacleName: Obstacle
+  failureReason: NABRAK!
+  hasLocalMovement: 0
+  localMoveDirection: {x: 1, y: 0}
+  moveSpeed: 2
+  bounceHorizontal: 0
+  bounceMinX: -1.8
+  bounceMaxX: 1.8
+  patrolVertical: 0
+  patrolMaxY: 1.5
+  patrolMinY: -1.5
+  startMovingUp: 1
 --- !u!1001 &8238837264312235061
 PrefabInstance:
   m_ObjectHideFlags: 0
