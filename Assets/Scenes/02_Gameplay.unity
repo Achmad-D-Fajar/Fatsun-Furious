@@ -3370,6 +3370,8 @@ MonoBehaviour:
   spriteTurnRight: {fileID: -6491624094962793852, guid: 8b7a7a98ae59a644fad2de1e3348a271, type: 3}
   turnDisplaySize: {x: 0.9, y: 1.1}
   turnSpriteDuration: 0.2
+  turnSpeedMultiplier: 0.55
+  turnSlowDuration: 0.15
   minGreetHoldTime: 0.25
   vfxCrash: {fileID: 0}
   vfxSplashDirty: {fileID: 0}

@@ -49,7 +49,14 @@ public class WorldScroller : MonoBehaviour
             ? overrideSpeed
             : GameManager.Instance.CurrentScrollSpeed;
 
-        // Move the entire level layout downward (negative Y) every frame.
-        transform.Translate(Vector2.up * _scrollDirection * speed * Time.deltaTime);
+        // Baca multiplier belok dari PlayerController.
+        // Saat player berpindah lane, WorldScroller ikut melambat sesuai
+        // turnSpeedMultiplier dan turnSlowDuration yang diset di PlayerController.
+        // Kalau PlayerController tidak ada (misal: scene test), default 1.0 (no effect).
+        float turnMult = PlayerController.Instance != null
+            ? PlayerController.Instance.CurrentTurnSpeedMultiplier
+            : 1f;
+
+        transform.Translate(Vector2.up * _scrollDirection * speed * turnMult * Time.deltaTime);
     }
 }

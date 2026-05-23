@@ -93,6 +93,21 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Durasi sprite belok sebelum kembali ke sprite default (detik).")]
     [SerializeField] private float turnSpriteDuration = 0.2f;
 
+    [Header("─── Turn Speed Reduction ────────────────────────────")]
+    [Tooltip("Multiplier kecepatan scroll saat player berpindah lane.\n\n" +
+             "1.0 = tidak ada efek (kecepatan tidak berubah saat belok).\n" +
+             "0.7 = kecepatan berkurang 30% selama turnSlowDuration.\n" +
+             "0.5 = berkurang 50%, terasa seperti ngerem saat belok.\n\n" +
+             "Multiplier ini dikalikan di atas kecepatan yang sudah ada " +
+             "(Normal/Accelerate/Slow), jadi berlaku di semua speed state.")]
+    [SerializeField] [Range(0f, 1f)] private float turnSpeedMultiplier = 0.75f;
+
+    [Tooltip("Durasi (detik) efek perlambatan saat belok.\n\n" +
+             "Direkomendasikan: sama atau sedikit lebih pendek dari turnSpriteDuration " +
+             "agar efek visual dan efek kecepatan selesai bersamaan.\n" +
+             "Contoh: turnSpriteDuration = 0.2 → turnSlowDuration = 0.15–0.2.")]
+    [SerializeField] [Range(0f, 0.5f)] private float turnSlowDuration = 0.15f;
+
     // ── Greeting ──────────────────────────────────────────────────────────────
 
     [Header("─── Greeting Logic ───────────────────────────────────")]
@@ -161,6 +176,13 @@ public class PlayerController : MonoBehaviour
     public bool       IsActivelyGreeting { get; private set; } = false;
     public int        CurrentLaneIndex   { get; private set; } = 1;
 
+    /// <summary>
+    /// Multiplier sementara yang diterapkan ke scroll speed saat player berpindah lane.
+    /// Bernilai turnSpeedMultiplier selama turnSlowDuration detik setelah belok,
+    /// lalu kembali ke 1.0. Dibaca oleh WorldScroller setiap frame.
+    /// </summary>
+    public float CurrentTurnSpeedMultiplier { get; private set; } = 1f;
+
     // =========================================================================
     //  PRIVATE STATE
     // =========================================================================
@@ -172,6 +194,9 @@ public class PlayerController : MonoBehaviour
 
     // Turn sprite
     private Coroutine _turnSpriteCoroutine;
+
+    // Turn speed slow
+    private Coroutine _turnSlowCoroutine;
 
     // VFX one-shot
     private Coroutine _oneShotCoroutine;
@@ -288,6 +313,7 @@ public class PlayerController : MonoBehaviour
         CurrentLaneIndex = newIndex;
         _targetX         = laneXPositions[CurrentLaneIndex];
         ShowTurnSprite(direction);
+        StartTurnSlow();
     }
 
     // =========================================================================
@@ -328,6 +354,26 @@ public class PlayerController : MonoBehaviour
         ApplyPlayerSprite(turnSprite, turnDisplaySize);
         yield return new WaitForSeconds(turnSpriteDuration);
         ApplyPlayerSprite(spriteDefault, defaultDisplaySize);
+    }
+
+    // ── Turn Speed Slow ───────────────────────────────────────────────────────
+
+    private void StartTurnSlow()
+    {
+        // Kalau efek belok sebelumnya masih berjalan, cancel dulu
+        // (misal: player belok lagi sebelum efek selesai — reset durasi)
+        if (_turnSlowCoroutine != null) StopCoroutine(_turnSlowCoroutine);
+        _turnSlowCoroutine = StartCoroutine(TurnSlowRoutine());
+    }
+
+    private IEnumerator TurnSlowRoutine()
+    {
+        // Terapkan multiplier langsung saat belok dimulai
+        CurrentTurnSpeedMultiplier = turnSpeedMultiplier;
+        yield return new WaitForSeconds(turnSlowDuration);
+        // Kembalikan ke normal setelah durasi habis
+        CurrentTurnSpeedMultiplier = 1f;
+        _turnSlowCoroutine = null;
     }
 
     // =========================================================================
