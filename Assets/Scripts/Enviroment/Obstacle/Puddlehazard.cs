@@ -30,7 +30,7 @@ public class PuddleHazard : MonoBehaviour
         // ── Condition A: Slip ────────────────────────────────────────────────
         if (player.CurrentSpeedState == SpeedState.Accelerate)
         {
-            player.SpawnSplashVFX(isDirty: true);
+            player.ShowSplashVFX(isDirty: true);
             GameManager.Instance.TriggerGameOver(slipFailReason);
             return;
         }
@@ -38,13 +38,13 @@ public class PuddleHazard : MonoBehaviour
         // ── Condition B: Splash NPC ───────────────────────────────────────────
         if (IsAdjacentToNPC(player.CurrentLaneIndex))
         {
-            player.SpawnSplashVFX(isDirty: true);
+            player.ShowSplashVFX(isDirty: true);
             GameManager.Instance.TriggerGameOver(splashFailReason);
             return;
         }
 
         // ── Safe Pass ─────────────────────────────────────────────────────────
-        player.SpawnSplashVFX(isDirty: false);
+        player.ShowSplashVFX(isDirty: true);
         Debug.Log("[PuddleHazard] Puddle dilewati dengan aman.");
     }
 

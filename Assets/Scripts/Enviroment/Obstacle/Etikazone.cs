@@ -113,7 +113,7 @@ public class EtikaZone : MonoBehaviour
         // If the player exited cleanly (no fail), show the greeting feedback.
         if (!_failTriggered && !IsGameNotPlaying())
         {
-            UIManager.Instance?.ShowGreetingFeedback();
+            PlayerController.Instance?.ShowGreetVFX();
             GameManager.Instance?.PlayGreetingSFX();
             Debug.Log("[EtikaZone] Greeting completed successfully — Permisi!");
         }

@@ -1,6 +1,5 @@
 // =============================================================================
 // PlayerController.cs
-// Complete rewrite of PlayerMovement.cs using the New Input System.
 //
 // ── LANE LAYOUT ──────────────────────────────────────────────────────────────
 //
@@ -15,22 +14,25 @@
 //   Attempting to switch left from Lane 0, or right from Lane 2,
 //   triggers an immediate "NABRAK!" Game Over (crashed into a house).
 //
-// ── Responsibilities ─────────────────────────────────────────────────────────
-//  - 3-playable-lane movement with house-wall border crash detection
-//  - Speed state management (Normal / Accelerate / Slow)
-//  - State-guarded inputs (no movement during Paused / GameOver / LevelComplete)
-//  - Reporting speed state to GameManager every frame
-//  - Triggering greeting feedback via UIManager
-//  - Tracking whether player is currently in "Slow/Greet" mode (queried by hazards)
+// ── VFX SYSTEM ───────────────────────────────────────────────────────────────
+//   Semua VFX adalah child GameObjects di bawah Player.
+//   Tidak ada Instantiate / prefab runtime — hanya SetActive dan sprite swap.
+//   Artist atur posisi tiap VFX child langsung di Scene view.
 //
-// SETUP:
+//   Child GO yang dibutuhkan:
+//     VFX_Crash         → SpriteRenderer, default inactive
+//     VFX_Splash_Dirty  → SpriteRenderer, default inactive
+//     VFX_Splash_Clean  → SpriteRenderer, default inactive
+//     VFX_Accelerate    → SpriteRenderer, default inactive (2-frame loop)
+//     VFX_Slow          → SpriteRenderer, default inactive (2-frame loop)
+//     VFX_Greet         → SpriteRenderer, default inactive
+//
+// ── SETUP ────────────────────────────────────────────────────────────────────
 //  1. Attach to the Player sprite GameObject.
-//  2. Ensure a Rigidbody2D is attached (Body Type: Dynamic, Gravity Scale: 0,
-//     Collision Detection: Continuous, Freeze Rotation Z: ✓).
-//  3. Ensure a Collider2D is attached (IsTrigger = true).
-//  4. Tag the Player GameObject as "Player".
-//  5. This script uses direct Keyboard polling (New Input System).
-//     No InputActionAsset needed. Just install com.unity.inputsystem.
+//  2. Rigidbody2D: Dynamic, Gravity Scale 0, Freeze Rotation Z, Continuous.
+//  3. Collider2D: IsTrigger = true.
+//  4. Tag Player sebagai "Player".
+//  5. Buat semua child VFX GO, set inactive, assign ke fields di Inspector.
 // =============================================================================
 
 using System.Collections;
@@ -41,6 +43,10 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
 
+    // =========================================================================
+    //  INSPECTOR FIELDS
+    // =========================================================================
+
     // ── Lane Configuration ────────────────────────────────────────────────────
 
     [Header("─── Lane Configuration (5 Visual Columns) ───────────")]
@@ -48,7 +54,6 @@ public class PlayerController : MonoBehaviour
              "Screen layout:\n" +
              "  [HOUSE] | Lane 0 | Lane 1 | Lane 2 | [HOUSE]\n" +
              "  BORDER  | (Left) |(Center)| (Right)|  BORDER\n\n" +
-             "Measure your alley in the Scene view.\n" +
              "Typical narrow gang: { -1.8, 0, 1.8 }")]
     [SerializeField] private float[] laneXPositions = { -1.8f, 0f, 1.8f };
 
@@ -56,97 +61,130 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float laneTransitionSpeed = 14f;
 
     [Header("─── Border Wall Positions (Columns 1 & 5) ──────────")]
-    [Tooltip("World-space X of the LEFT house wall (column 1). Gizmo only. Typical: -2.7")]
+    [Tooltip("World-space X of the LEFT house wall. Gizmo only. Typical: -2.7")]
     [SerializeField] private float leftWallX  = -2.7f;
 
-    [Tooltip("World-space X of the RIGHT house wall (column 5). Gizmo only. Typical: 2.7")]
+    [Tooltip("World-space X of the RIGHT house wall. Gizmo only. Typical: 2.7")]
     [SerializeField] private float rightWallX =  2.7f;
 
-    // ── Speed State Tint ──────────────────────────────────────────────────────
+    // ── Sprites ───────────────────────────────────────────────────────────────
 
-    [Header("─── Speed State Visual Feedback ─────────────────────")]
-    [Tooltip("SpriteRenderer on the player. Used for tinting during speed states.")]
+    [Header("─── Player SpriteRenderer ──────────────────────────")]
+    [Tooltip("SpriteRenderer pada body motor player.")]
     [SerializeField] private SpriteRenderer playerSprite;
-
-    [Tooltip("Tint color applied to the sprite while Accelerating.")]
-    [SerializeField] private Color accelerateTint = new Color(1f, 0.8f, 0.2f);
-
-    [Tooltip("Tint color applied to the sprite while Slowing.")]
-    [SerializeField] private Color slowTint       = new Color(0.5f, 0.8f, 1f);
-
-    [Tooltip("Default sprite color (no tint).")]
-    [SerializeField] private Color normalTint     = Color.white;
-
-    // ── Greeting Logic ────────────────────────────────────────────────────────
-
-    [Header("─── Greeting Logic ───────────────────────────────────")]
-    [Tooltip("Minimum seconds the player must hold 'S' for the greeting to count.")]
-    [SerializeField] private float minGreetHoldTime = 0.25f;
-
-    // ── Default Sprite + Size ─────────────────────────────────────────────────
 
     [Header("─── Default Sprite ───────────────────────────────────")]
     [Tooltip("Sprite default saat player jalan lurus ke depan.")]
     [SerializeField] private Sprite spriteDefault;
 
-    [Tooltip("Ukuran tampilan sprite default dalam WORLD UNITS (lebar × tinggi).\n\n" +
-             "Ini adalah ukuran referensi saat player jalan lurus.\n" +
-             "Contoh: (0.5, 0.8) artinya sprite default tampil 0.5 unit lebar, 0.8 unit tinggi.")]
+    [Tooltip("Ukuran tampilan sprite default dalam WORLD UNITS (lebar × tinggi).")]
     [SerializeField] private Vector2 defaultDisplaySize = new Vector2(0.5f, 0.8f);
 
-    // ── Turn Sprites + Size ───────────────────────────────────────────────────
-
     [Header("─── Turn Sprites ─────────────────────────────────────")]
-    [Tooltip("Sprite ditampilkan saat player belok ke kiri.")]
+    [Tooltip("Sprite saat player belok ke kiri.")]
     [SerializeField] private Sprite spriteTurnLeft;
 
-    [Tooltip("Sprite ditampilkan saat player belok ke kanan.")]
+    [Tooltip("Sprite saat player belok ke kanan.")]
     [SerializeField] private Sprite spriteTurnRight;
 
-    [Tooltip("Ukuran tampilan turn sprite dalam WORLD UNITS (lebar × tinggi).\n\n" +
-             "Dipakai untuk spriteTurnLeft dan spriteTurnRight sekaligus.\n" +
-             "Set terpisah dari defaultDisplaySize agar bisa lebih lebar/pendek " +
-             "tanpa mempengaruhi sprite default.\n" +
-             "Contoh: (0.65, 0.75) kalau sprite belok lebih lebar dari default.")]
+    [Tooltip("Ukuran turn sprite dalam WORLD UNITS. Independent dari defaultDisplaySize.")]
     [SerializeField] private Vector2 turnDisplaySize = new Vector2(0.65f, 0.75f);
 
-    [Tooltip("Berapa detik sprite belok ditampilkan sebelum kembali ke sprite default.")]
+    [Tooltip("Durasi sprite belok sebelum kembali ke sprite default (detik).")]
     [SerializeField] private float turnSpriteDuration = 0.2f;
 
-    // ── VFX ───────────────────────────────────────────────────────────────────
+    // ── Greeting ──────────────────────────────────────────────────────────────
 
-    [Header("─── VFX ─────────────────────────────────────────────")]
-    [Tooltip("Transform di ujung depan player. Buat child empty GO bernama 'VFXSpawnPoint'.")]
-    [SerializeField] private Transform vfxSpawnPoint;
+    [Header("─── Greeting Logic ───────────────────────────────────")]
+    [Tooltip("Minimum detik player harus tahan 'S' agar greeting dihitung.")]
+    [SerializeField] private float minGreetHoldTime = 0.25f;
 
-    [Tooltip("Prefab VFX 💥 crash. Muncul saat player nabrak obstacle.")]
-    [SerializeField] private GameObject crashVFXPrefab;
+    // ── VFX — One-Shot (Crash, Splash, Greet) ─────────────────────────────────
 
-    [Tooltip("Prefab VFX 💦 splash. Muncul saat player lewat puddle.")]
-    [SerializeField] private GameObject splashVFXPrefab;
+    [Header("─── VFX: One-Shot (Child GameObjects) ───────────────")]
+    [Tooltip("Child GO dengan SpriteRenderer sprite 💥 crash.\n" +
+             "Muncul sesaat saat player nabrak, lalu hilang otomatis.\n" +
+             "Default: inactive.")]
+    [SerializeField] private GameObject vfxCrash;
 
-    [Tooltip("Sorting order VFX agar muncul di atas semua sprite.")]
-    [SerializeField] private int vfxSortingOrder = 10;
+    [Tooltip("Child GO splash 💦 kotor (nyiprat/terpeleset di puddle).\n" +
+             "Default: inactive.")]
+    [SerializeField] private GameObject vfxSplashDirty;
 
-    // ── Public Read-Only State ────────────────────────────────────────────────
+    [Tooltip("Child GO splash bersih (safe pass lewat puddle).\n" +
+             "Default: inactive.")]
+    [SerializeField] private GameObject vfxSplashClean;
+
+    [Tooltip("Child GO bubble 'Permisi!' saat greet NPC berhasil.\n" +
+             "Default: inactive.")]
+    [SerializeField] private GameObject vfxGreet;
+
+    [Tooltip("Durasi VFX one-shot tampil sebelum hilang (detik).\n" +
+             "Pakai unscaled time agar crash VFX tampil walau timeScale = 0.")]
+    [SerializeField] private float vfxOneShotDuration = 0.5f;
+
+    // ── VFX — Looping 2-Frame (Accelerate & Slow) ─────────────────────────────
+
+    [Header("─── VFX: Accelerate (2-Frame Loop) ───────────────────")]
+    [Tooltip("SpriteRenderer pada child GO 'VFX_Accelerate'.\n" +
+             "Aktif selama tombol accelerate ditahan, animasi 2 frame bergantian.\n" +
+             "Posisikan child ini di belakang motor di Scene view.")]
+    [SerializeField] private SpriteRenderer vfxAccelerateRenderer;
+
+    [Tooltip("Frame 1 animasi accelerate (misal: garis angin frame A).")]
+    [SerializeField] private Sprite vfxAccelerateFrame1;
+
+    [Tooltip("Frame 2 animasi accelerate (misal: garis angin frame B).")]
+    [SerializeField] private Sprite vfxAccelerateFrame2;
+
+    [Header("─── VFX: Slow / Brake (2-Frame Loop) ─────────────────")]
+    [Tooltip("SpriteRenderer pada child GO 'VFX_Slow'.\n" +
+             "Aktif selama tombol slow/brake ditahan, animasi 2 frame bergantian.\n" +
+             "Posisikan child ini di area ban belakang di Scene view.")]
+    [SerializeField] private SpriteRenderer vfxSlowRenderer;
+
+    [Tooltip("Frame 1 animasi brake (misal: skid mark / asap frame A).")]
+    [SerializeField] private Sprite vfxSlowFrame1;
+
+    [Tooltip("Frame 2 animasi brake (misal: skid mark / asap frame B).")]
+    [SerializeField] private Sprite vfxSlowFrame2;
+
+    [Tooltip("Kecepatan ganti frame dalam detik.\n" +
+             "0.1 = animasi cepat | 0.3 = animasi lambat.")]
+    [SerializeField] private float vfxFrameInterval = 0.15f;
+
+    // =========================================================================
+    //  PUBLIC READ-ONLY STATE
+    // =========================================================================
 
     public SpeedState CurrentSpeedState { get; private set; } = SpeedState.Normal;
-    public bool IsActivelyGreeting      { get; private set; } = false;
-    public int  CurrentLaneIndex        { get; private set; } = 1;
+    public bool       IsActivelyGreeting { get; private set; } = false;
+    public int        CurrentLaneIndex   { get; private set; } = 1;
 
-    // ── Private State ─────────────────────────────────────────────────────────
+    // =========================================================================
+    //  PRIVATE STATE
+    // =========================================================================
 
     private float       _targetX          = 0f;
     private float       _slowKeyHoldTimer = 0f;
     private bool        _slowKeyHeld      = false;
     private Rigidbody2D _rb;
-    private Coroutine   _turnSpriteCoroutine;
+
+    // Turn sprite
+    private Coroutine _turnSpriteCoroutine;
+
+    // VFX one-shot
+    private Coroutine _oneShotCoroutine;
+
+    // VFX 2-frame loop
+    private float _vfxFrameTimer  = 0f;
+    private bool  _vfxFrameToggle = false;
 
     private Keyboard _kb => Keyboard.current;
 
-    // ==========================================================================
-    //  Unity Lifecycle
-    // ==========================================================================
+    // =========================================================================
+    //  UNITY LIFECYCLE
+    // =========================================================================
 
     private void Awake()
     {
@@ -160,7 +198,6 @@ public class PlayerController : MonoBehaviour
         _targetX         = laneXPositions[CurrentLaneIndex];
         SetPositionX(_targetX);
 
-        // Terapkan ukuran default sejak awal
         ApplyPlayerSprite(spriteDefault, defaultDisplaySize);
     }
 
@@ -170,18 +207,22 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.Instance != null)
                 GameManager.Instance.SetScrollSpeedForState(SpeedState.Normal);
+
+            // Matikan semua looping VFX saat tidak playing
+            SetVFXActive(vfxAccelerateRenderer, false);
+            SetVFXActive(vfxSlowRenderer, false);
             return;
         }
 
         HandleSpeedInput();
         HandleLaneSwitchInput();
         SmoothMoveToTargetLane();
-        UpdateSpriteColor();
+        UpdateSpeedVFX();
     }
 
-    // ==========================================================================
-    //  Input Handling
-    // ==========================================================================
+    // =========================================================================
+    //  INPUT HANDLING
+    // =========================================================================
 
     private void HandleSpeedInput()
     {
@@ -249,9 +290,25 @@ public class PlayerController : MonoBehaviour
         ShowTurnSprite(direction);
     }
 
-    // ==========================================================================
-    //  Turn Sprite
-    // ==========================================================================
+    // =========================================================================
+    //  MOVEMENT
+    // =========================================================================
+
+    private void SmoothMoveToTargetLane()
+    {
+        float newX = Mathf.MoveTowards(transform.position.x, _targetX,
+                                        laneTransitionSpeed * Time.deltaTime);
+        _rb.MovePosition(new Vector2(newX, transform.position.y));
+    }
+
+    private void SetPositionX(float x)
+    {
+        transform.position = new Vector3(x, transform.position.y, transform.position.z);
+    }
+
+    // =========================================================================
+    //  TURN SPRITE
+    // =========================================================================
 
     private void ShowTurnSprite(int direction)
     {
@@ -268,31 +325,15 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator TurnSpriteRoutine(Sprite turnSprite)
     {
-        // Tampilkan sprite belok dengan ukuran turnDisplaySize
         ApplyPlayerSprite(turnSprite, turnDisplaySize);
-
         yield return new WaitForSeconds(turnSpriteDuration);
-
-        // Kembali ke sprite default dengan ukuran defaultDisplaySize
         ApplyPlayerSprite(spriteDefault, defaultDisplaySize);
     }
 
-    // ==========================================================================
-    //  Sprite + Size Application
-    // ==========================================================================
+    // =========================================================================
+    //  SPRITE + SIZE APPLICATION
+    // =========================================================================
 
-    /// <summary>
-    /// Ganti sprite playerSprite dan set localScale-nya agar tampil
-    /// persis sebesar targetSize dalam world units.
-    ///
-    /// Cara hitung:
-    ///   sprite.bounds.size = ukuran sprite dalam world units pada scale (1,1,1).
-    ///   localScale target  = targetSize / sprite.bounds.size
-    ///
-    /// Default sprite → pakai defaultDisplaySize.
-    /// Turn sprite    → pakai turnDisplaySize.
-    /// Keduanya independen, tidak saling mempengaruhi.
-    /// </summary>
     private void ApplyPlayerSprite(Sprite s, Vector2 targetSize)
     {
         if (playerSprite == null || s == null) return;
@@ -305,74 +346,130 @@ public class PlayerController : MonoBehaviour
         playerSprite.transform.localScale = new Vector3(
             targetSize.x / native.x,
             targetSize.y / native.y,
-            playerSprite.transform.localScale.z   // Z tidak diubah
+            playerSprite.transform.localScale.z
         );
     }
 
-    // ==========================================================================
-    //  Movement
-    // ==========================================================================
+    // =========================================================================
+    //  VFX — LOOPING 2-FRAME (Accelerate & Slow)
+    // =========================================================================
 
-    private void SmoothMoveToTargetLane()
+    private void UpdateSpeedVFX()
     {
-        float newX = Mathf.MoveTowards(transform.position.x, _targetX,
-                                        laneTransitionSpeed * Time.deltaTime);
-        _rb.MovePosition(new Vector2(newX, transform.position.y));
-    }
+        bool isAccel = CurrentSpeedState == SpeedState.Accelerate;
+        bool isSlow  = CurrentSpeedState == SpeedState.Slow;
 
-    private void SetPositionX(float x)
-    {
-        transform.position = new Vector3(x, transform.position.y, transform.position.z);
-    }
-
-    // ==========================================================================
-    //  Visual Feedback
-    // ==========================================================================
-
-    private void UpdateSpriteColor()
-    {
-        if (playerSprite == null) return;
-        playerSprite.color = CurrentSpeedState switch
+        // ── Tick frame timer ──────────────────────────────────────────────────
+        if (isAccel || isSlow)
         {
-            SpeedState.Accelerate => accelerateTint,
-            SpeedState.Slow       => slowTint,
-            _                     => normalTint
-        };
-    }
-
-    // ==========================================================================
-    //  VFX Spawning
-    // ==========================================================================
-
-    public void SpawnCrashVFX()  => SpawnVFX(crashVFXPrefab);
-
-    public void SpawnSplashVFX(bool isDirty)
-    {
-        GameObject vfx = SpawnVFX(splashVFXPrefab);
-        if (vfx == null) return;
-        vfx.GetComponent<SplashVFX>()?.Init(isDirty);
-    }
-
-    private GameObject SpawnVFX(GameObject prefab)
-    {
-        if (prefab == null)
+            _vfxFrameTimer += Time.deltaTime;
+            if (_vfxFrameTimer >= vfxFrameInterval)
+            {
+                _vfxFrameTimer  = 0f;
+                _vfxFrameToggle = !_vfxFrameToggle;
+            }
+        }
+        else
         {
-            Debug.LogWarning("[PlayerController] VFX prefab not assigned!");
-            return null;
+            _vfxFrameTimer  = 0f;
+            _vfxFrameToggle = false;
         }
 
-        Vector3 spawnPos = vfxSpawnPoint != null ? vfxSpawnPoint.position : transform.position;
-        GameObject vfx   = Instantiate(prefab, spawnPos, Quaternion.identity);
+        // ── Accelerate VFX ────────────────────────────────────────────────────
+        SetVFXActive(vfxAccelerateRenderer, isAccel);
+        if (isAccel && vfxAccelerateRenderer != null)
+        {
+            vfxAccelerateRenderer.sprite = _vfxFrameToggle
+                ? vfxAccelerateFrame2
+                : vfxAccelerateFrame1;
+        }
 
-        SpriteRenderer sr = vfx.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.sortingOrder = vfxSortingOrder;
-
-        return vfx;
+        // ── Slow / Brake VFX ──────────────────────────────────────────────────
+        SetVFXActive(vfxSlowRenderer, isSlow);
+        if (isSlow && vfxSlowRenderer != null)
+        {
+            vfxSlowRenderer.sprite = _vfxFrameToggle
+                ? vfxSlowFrame2
+                : vfxSlowFrame1;
+        }
     }
 
-    // ==========================================================================
-    //  Editor Gizmos
-    // ==========================================================================
+    // =========================================================================
+    //  VFX — ONE-SHOT (Crash, Splash, Greet)
+    // =========================================================================
+
+    /// <summary>
+    /// Tampilkan crash VFX 💥.
+    /// Dipanggil oleh GameManager.TriggerGameOver().
+    /// </summary>
+    public void ShowCrashVFX()
+    {
+        ShowOneShotVFX(vfxCrash);
+    }
+
+    /// <summary>
+    /// Tampilkan splash VFX 💦.
+    /// Dipanggil oleh PuddleHazard.
+    /// isDirty = true  → nyiprat/terpeleset (splash kotor).
+    /// isDirty = false → safe pass (splash bersih).
+    /// </summary>
+    public void ShowSplashVFX(bool isDirty)
+    {
+        ShowOneShotVFX(isDirty ? vfxSplashDirty : vfxSplashClean);
+    }
+
+    /// <summary>
+    /// Tampilkan bubble 'Permisi!' saat greeting NPC berhasil.
+    /// Dipanggil oleh EtikaZone.
+    /// </summary>
+    public void ShowGreetVFX()
+    {
+        ShowOneShotVFX(vfxGreet);
+    }
+
+    /// <summary>Aktifkan GO sebentar lalu nonaktifkan otomatis via unscaled time.</summary>
+    private void ShowOneShotVFX(GameObject vfx)
+    {
+        if (vfx == null) return;
+
+        // Stop coroutine sebelumnya untuk VFX yang sama agar tidak overlap
+        if (_oneShotCoroutine != null) StopCoroutine(_oneShotCoroutine);
+        _oneShotCoroutine = StartCoroutine(OneShotRoutine(vfx));
+    }
+
+    private IEnumerator OneShotRoutine(GameObject vfx)
+    {
+        vfx.SetActive(true);
+        // Unscaled time: crash VFX tetap tampil walau timeScale = 0
+        yield return new WaitForSecondsRealtime(vfxOneShotDuration);
+        vfx.SetActive(false);
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    /// <summary>Toggle SpriteRenderer GO aktif/nonaktif, hanya jika state berbeda.</summary>
+    private void SetVFXActive(SpriteRenderer sr, bool active)
+    {
+        if (sr != null && sr.gameObject.activeSelf != active)
+            sr.gameObject.SetActive(active);
+    }
+
+    // =========================================================================
+    //  COLLISION — Generic obstacle fallback
+    // =========================================================================
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (GameManager.Instance == null) return;
+        if (GameManager.Instance.CurrentState != GameState.Playing) return;
+
+        if (other.CompareTag("Obstacle"))
+            GameManager.Instance.TriggerGameOver("NABRAK!");
+    }
+
+    // =========================================================================
+    //  EDITOR GIZMOS
+    // =========================================================================
 
     private void OnDrawGizmosSelected()
     {
@@ -383,9 +480,8 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = new Color(0f, 1f, 0f, 0.6f);
         foreach (float x in laneXPositions)
         {
-            Gizmos.DrawLine(
-                new Vector3(x, center.y - gizmoHeight, 0f),
-                new Vector3(x, center.y + gizmoHeight, 0f));
+            Gizmos.DrawLine(new Vector3(x, center.y - gizmoHeight, 0f),
+                            new Vector3(x, center.y + gizmoHeight, 0f));
         }
 
         // House walls — merah
@@ -402,7 +498,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawCube(new Vector3(roadCenter, center.y, 0f),
                         new Vector3(roadWidth, gizmoHeight * 2f, 0f));
 
-        // Current lane indicator — cyan
+        // Current lane indicator saat play — cyan
         if (Application.isPlaying && laneXPositions != null &&
             CurrentLaneIndex < laneXPositions.Length)
         {
@@ -412,20 +508,14 @@ public class PlayerController : MonoBehaviour
                 new Vector3(defaultDisplaySize.x, defaultDisplaySize.y, 0f));
         }
 
-        // Visualisasi ukuran default sprite di posisi player — putih
-        if (defaultDisplaySize.x > 0f && defaultDisplaySize.y > 0f)
-        {
-            Gizmos.color = new Color(1f, 1f, 1f, 0.3f);
-            Gizmos.DrawWireCube(center,
-                new Vector3(defaultDisplaySize.x, defaultDisplaySize.y, 0f));
-        }
+        // Ukuran default sprite — putih
+        Gizmos.color = new Color(1f, 1f, 1f, 0.3f);
+        Gizmos.DrawWireCube(center,
+            new Vector3(defaultDisplaySize.x, defaultDisplaySize.y, 0f));
 
-        // Visualisasi ukuran turn sprite — kuning
-        if (turnDisplaySize.x > 0f && turnDisplaySize.y > 0f)
-        {
-            Gizmos.color = new Color(1f, 0.9f, 0.2f, 0.25f);
-            Gizmos.DrawWireCube(center,
-                new Vector3(turnDisplaySize.x, turnDisplaySize.y, 0f));
-        }
+        // Ukuran turn sprite — kuning
+        Gizmos.color = new Color(1f, 0.9f, 0.2f, 0.25f);
+        Gizmos.DrawWireCube(center,
+            new Vector3(turnDisplaySize.x, turnDisplaySize.y, 0f));
     }
 }
