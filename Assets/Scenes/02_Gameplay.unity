@@ -1230,7 +1230,7 @@ MonoBehaviour:
   storyComicImage: {fileID: 1572400294}
   storyContinueText: {fileID: 944325766}
   greetingBubble: {fileID: 1591025594}
-  greetingBubbleDuration: 0.8
+  greetingBubbleDuration: 0.5
   bgmToggle: {fileID: 0}
   sfxToggle: {fileID: 0}
 --- !u!4 &548334847
@@ -3308,9 +3308,11 @@ MonoBehaviour:
   slowTint: {r: 0.5, g: 0.8, b: 1, a: 1}
   normalTint: {r: 1, g: 1, b: 1, a: 1}
   minGreetHoldTime: 0.25
+  spriteDefault: {fileID: -7833446848930210095, guid: 200e03d3ca1cb7249bff79f83dce25a9, type: 3}
+  defaultDisplaySize: {x: 0.8, y: 1.5}
   spriteTurnLeft: {fileID: -1123821609398510853, guid: 85d906ebea9cad24ab4ac1d5a66a5a2e, type: 3}
   spriteTurnRight: {fileID: -6491624094962793852, guid: 8b7a7a98ae59a644fad2de1e3348a271, type: 3}
-  spriteDefault: {fileID: -7833446848930210095, guid: 200e03d3ca1cb7249bff79f83dce25a9, type: 3}
+  turnDisplaySize: {x: 0.9, y: 1.1}
   turnSpriteDuration: 0.2
   vfxSpawnPoint: {fileID: 1414687313}
   crashVFXPrefab: {fileID: 8230993406796476396, guid: 08807a426f2bfaa449eb09612d5d5723, type: 3}
@@ -3452,8 +3454,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.019209385, y: 1.2036544}
-  m_Size: {x: 1.5540266, y: 3.8402522}
+  m_Offset: {x: -0.019209385, y: 0.82714796}
+  m_Size: {x: 1.5540266, y: 3.0872393}
   m_Direction: 0
 --- !u!1 &1535857007
 GameObject:

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 200e03d3ca1cb7249bff79f83dce25a9
+guid: 493b473a05563fa4fbc39d8178686fd5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7833446848930210095
-    second: Rider lurus_0
+      213: -8959598149780231976
+    second: chick0_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rider lurus_0
+      name: chick0_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 400
-        height: 800
+        x: 95
+        y: 21
+        width: 202
+        height: 360
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1de9c9228910a4390800000000000000
-      internalID: -7833446848930210095
+      spriteID: 8d82a18e3fc19a380800000000000000
+      internalID: -8959598149780231976
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 186ff27324c605f45af5a0f63a8e9e6b
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Rider lurus_0: -7833446848930210095
+      chick0_0: -8959598149780231976
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
