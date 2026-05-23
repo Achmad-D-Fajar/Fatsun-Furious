@@ -289,6 +289,7 @@ public class GameManager : MonoBehaviour
         _timerRunning  = false;
         GameOverReason = reason;
 
+        PlayerController.Instance?.ShowCrashVFX();
         StopBGM();                              // Silence the level music immediately.
         PlaySFX(sfxCrash, sfxCrashVolume);     // Play crash / failure sound effect.
 

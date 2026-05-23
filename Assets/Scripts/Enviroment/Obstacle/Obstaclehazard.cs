@@ -130,7 +130,7 @@ public class ObstacleHazard : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         if (GameManager.Instance == null) return;
         if (GameManager.Instance.CurrentState != GameState.Playing) return;
-
+        
         GameManager.Instance.TriggerGameOver(failureReason);
     }
 
