@@ -220,7 +220,24 @@ public class UIManager : MonoBehaviour
             case GameState.LevelComplete:
                 ShowPanel(hudPanel);
                 bool isFinal = GameManager.Instance != null && GameManager.Instance.IsFinalLevel;
-                ShowPanel(isFinal ? finalCompletePanel : levelCompletePanel);
+
+                Debug.Log($"[UIManager] LevelComplete | isFinal={isFinal} | " +
+                          $"levelIndex={GameManager.Instance?.CurrentLevelIndex} | " +
+                          $"finalCompletePanel={finalCompletePanel} | " +
+                          $"levelCompletePanel={levelCompletePanel}");
+
+                if (isFinal)
+                {
+                    if (finalCompletePanel != null)
+                        ShowPanel(finalCompletePanel);
+                    else
+                        Debug.LogError("[UIManager] finalCompletePanel is NULL! " +
+                                       "Assign it in UIManager Inspector in Scene02.");
+                }
+                else
+                {
+                    ShowPanel(levelCompletePanel);
+                }
                 break;
         }
     }
@@ -331,10 +348,16 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void ShowGreetingFeedback()
     {
+        // ── VFX child GO di player (sistem baru) ──────────────────────────────
+        // Selalu panggil ini — child GO VFX_Greet di Player akan muncul
+        // tanpa peduli apakah greetingBubble UI di-assign atau tidak.
+        PlayerController.Instance?.ShowGreetVFX();
+
+        // ── UI bubble (sistem lama, opsional) ─────────────────────────────────
+        // Hanya jalan jika greetingBubble di-assign di Inspector.
+        // Tidak perlu di-assign jika sudah pakai VFX child GO di atas.
         if (greetingBubble == null) return;
 
-        // Only stop the hide timer if it's actually running — avoids the
-        // "coroutine not running" exception that killed the bubble on first use.
         if (_greetingCoroutine != null)
         {
             StopCoroutine(_greetingCoroutine);

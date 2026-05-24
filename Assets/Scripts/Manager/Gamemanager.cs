@@ -351,8 +351,14 @@ public class GameManager : MonoBehaviour
     /// <summary>Advances to the next level. Call from the "Next Level" button.</summary>
     public void GoToNextLevel()
     {
+        // Final level: tombol "Next" di finalCompletePanel harus
+        // mengarah ke GoToMainMenu() langsung dari Inspector —
+        // bukan lewat GoToNextLevel() agar tidak skip final panel.
+        // GoToNextLevel() hanya untuk level 1-4.
         if (IsFinalLevel)
         {
+            Debug.LogWarning("[GameManager] GoToNextLevel() dipanggil di final level. " +
+                             "Hubungkan tombol di finalCompletePanel langsung ke GoToMainMenu().");
             GoToMainMenu();
             return;
         }
