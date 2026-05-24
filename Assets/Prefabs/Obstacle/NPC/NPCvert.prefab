@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 7025577811856775733}
   - component: {fileID: 1767843270139745266}
   m_Layer: 2
-  m_Name: Granvert
+  m_Name: NPCvert
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,7 +97,7 @@ Transform:
   m_GameObject: {fileID: 8646670863661520262}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.01, y: 2.79, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.45, y: 0.45, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -192,7 +192,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -273,11 +273,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433248857517211691, guid: 04ac37c81b3429b459f7a7e07167676d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.83
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433248857517211691, guid: 04ac37c81b3429b459f7a7e07167676d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.4
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: 5433248857517211691, guid: 04ac37c81b3429b459f7a7e07167676d, type: 3}
       propertyPath: m_LocalPosition.z

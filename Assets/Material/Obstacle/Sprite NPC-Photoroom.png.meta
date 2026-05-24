@@ -722,10 +722,10 @@ TextureImporter:
       name: Sprite NPC-Photoroom_23
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 275
-        height: 280
+        x: 174
+        y: 99
+        width: 105
+        height: 180
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
