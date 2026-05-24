@@ -253,8 +253,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_kb == null) return;
 
-        bool accelHeld = _kb.wKey.isPressed || _kb.upArrowKey.isPressed;
-        bool slowHeld  = _kb.sKey.isPressed || _kb.downArrowKey.isPressed;
+        bool accelHeld = MobileInputBridge.IsAccelHeld ||
+                     (_kb != null && (_kb.wKey.isPressed || _kb.upArrowKey.isPressed));
+
+        bool slowHeld  = MobileInputBridge.IsSlowHeld  ||
+                     (_kb != null && (_kb.sKey.isPressed || _kb.downArrowKey.isPressed));
+
 
         if (accelHeld && !slowHeld)
         {
@@ -290,10 +294,13 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLaneSwitchInput()
     {
-        if (_kb == null) return;
+        bool leftPressed  = MobileInputBridge.IsLeftHeld  ||
+                            (_kb != null && (_kb.aKey.wasPressedThisFrame ||
+                                            _kb.leftArrowKey.wasPressedThisFrame));
 
-        bool leftPressed  = _kb.aKey.wasPressedThisFrame || _kb.leftArrowKey.wasPressedThisFrame;
-        bool rightPressed = _kb.dKey.wasPressedThisFrame || _kb.rightArrowKey.wasPressedThisFrame;
+        bool rightPressed = MobileInputBridge.IsRightHeld ||
+                            (_kb != null && (_kb.dKey.wasPressedThisFrame ||
+                                            _kb.rightArrowKey.wasPressedThisFrame));
 
         if (leftPressed)  TrySwitchLane(-1);
         if (rightPressed) TrySwitchLane(+1);

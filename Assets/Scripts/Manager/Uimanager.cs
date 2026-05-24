@@ -569,13 +569,29 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance?.CurrentState != GameState.Story) return;
+        GameState state = GameManager.Instance?.CurrentState ?? GameState.MainMenu;
 
-        bool clicked = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
-        bool tapped  = Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame;
+        // ── Story: any key / click / tap untuk lanjut ─────────────────────────
+        if (state == GameState.Story)
+        {
+            bool anyKey  = Keyboard.current    != null && Keyboard.current.anyKey.wasPressedThisFrame;
+            bool clicked = Mouse.current       != null && Mouse.current.leftButton.wasPressedThisFrame;
+            bool tapped  = Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame;
 
-        if (clicked || tapped)
-            OnStoryPanelClicked();
+            if (anyKey || clicked || tapped)
+                OnStoryPanelClicked();
+
+            return; // Jangan proses input lain selama Story
+        }
+
+        // ── Playing / Paused: Spacebar untuk pause/resume ─────────────────────
+        if (state == GameState.Playing || state == GameState.Paused)
+        {
+            bool spacePressed = Keyboard.current != null &&
+                                Keyboard.current.spaceKey.wasPressedThisFrame;
+            if (spacePressed)
+                GameManager.Instance?.TogglePause();
+        }
     }
 
     /// <summary>Called by the Restart/New Game button on the Main Menu.</summary>
