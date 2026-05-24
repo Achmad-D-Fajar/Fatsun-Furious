@@ -1,0 +1,923 @@
+fileFormatVersion: 2
+guid: 5c919263dce8f144ba8ec1e83cf7de48
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5968531229389748824
+    second: Sprite NPC-Photoroom_0
+  - first:
+      213: -5397262467721953132
+    second: Sprite NPC-Photoroom_1
+  - first:
+      213: 3505166782428362415
+    second: Sprite NPC-Photoroom_2
+  - first:
+      213: 2722892326137743939
+    second: Sprite NPC-Photoroom_3
+  - first:
+      213: -4348792813921624112
+    second: Sprite NPC-Photoroom_4
+  - first:
+      213: -8920881548020810059
+    second: Sprite NPC-Photoroom_5
+  - first:
+      213: -3989100177235996801
+    second: Sprite NPC-Photoroom_6
+  - first:
+      213: 8725241430551617557
+    second: Sprite NPC-Photoroom_7
+  - first:
+      213: -8574068707967897319
+    second: Sprite NPC-Photoroom_8
+  - first:
+      213: -6438629544161953683
+    second: Sprite NPC-Photoroom_9
+  - first:
+      213: -21482116376072607
+    second: Sprite NPC-Photoroom_10
+  - first:
+      213: -6940215543269765977
+    second: Sprite NPC-Photoroom_11
+  - first:
+      213: -4381289692260867353
+    second: Sprite NPC-Photoroom_12
+  - first:
+      213: 1629636310890169277
+    second: Sprite NPC-Photoroom_13
+  - first:
+      213: -2447172351683560670
+    second: Sprite NPC-Photoroom_14
+  - first:
+      213: 2690501194785675430
+    second: Sprite NPC-Photoroom_15
+  - first:
+      213: 2275731872424391511
+    second: Sprite NPC-Photoroom_16
+  - first:
+      213: 2044473092544481247
+    second: Sprite NPC-Photoroom_17
+  - first:
+      213: -8535708112591475725
+    second: Sprite NPC-Photoroom_18
+  - first:
+      213: 8473015518514243165
+    second: Sprite NPC-Photoroom_19
+  - first:
+      213: -7493988063425650919
+    second: Sprite NPC-Photoroom_20
+  - first:
+      213: -9029348390208816356
+    second: Sprite NPC-Photoroom_21
+  - first:
+      213: -5846716012009140478
+    second: Sprite NPC-Photoroom_22
+  - first:
+      213: -333051203148290341
+    second: Sprite NPC-Photoroom_23
+  - first:
+      213: -6571297040475000294
+    second: Sprite NPC-Photoroom_24
+  - first:
+      213: -6609139139362010511
+    second: Sprite NPC-Photoroom_25
+  - first:
+      213: -801208241976661046
+    second: Sprite NPC-Photoroom_26
+  - first:
+      213: -2366320805800711080
+    second: Sprite NPC-Photoroom_27
+  - first:
+      213: -8329049304556460282
+    second: Sprite NPC-Photoroom_28
+  - first:
+      213: -7282778393658170538
+    second: Sprite NPC-Photoroom_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 658
+        width: 112
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a5066138748b2da0800000000000000
+      internalID: -5968531229389748824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 661
+        width: 112
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49082eba1621915b0800000000000000
+      internalID: -5397262467721953132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 660
+        width: 133
+        height: 267
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa634211e9ad4a030800000000000000
+      internalID: 3505166782428362415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_3
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 663
+        width: 117
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34ac315e428a9c520800000000000000
+      internalID: 2722892326137743939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_4
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 659
+        width: 100
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0df1e640afbf5a3c0800000000000000
+      internalID: -4348792813921624112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_5
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 662
+        width: 95
+        height: 261
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bef1e63f79a23480800000000000000
+      internalID: -8920881548020810059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_6
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 666
+        width: 107
+        height: 247
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7f8662268ed3a8c0800000000000000
+      internalID: -3989100177235996801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_7
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 659
+        width: 97
+        height: 255
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 510ec8f4ad8461970800000000000000
+      internalID: 8725241430551617557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_8
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 660
+        width: 93
+        height: 252
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 911f7cdffe9c20980800000000000000
+      internalID: -8574068707967897319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_9
+      rect:
+        serializedVersion: 2
+        x: 1262
+        y: 666
+        width: 107
+        height: 246
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6834ebfa8465a6a0800000000000000
+      internalID: -6438629544161953683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_10
+      rect:
+        serializedVersion: 2
+        x: 1384
+        y: 665
+        width: 107
+        height: 246
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16e6164012ea3bff0800000000000000
+      internalID: -21482116376072607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_11
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 355
+        width: 84
+        height: 218
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7acc2c6fbb66faf90800000000000000
+      internalID: -6940215543269765977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_12
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 357
+        width: 81
+        height: 215
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e2e5baec388233c0800000000000000
+      internalID: -4381289692260867353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_13
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 359
+        width: 95
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db3cfaf2791ad9610800000000000000
+      internalID: 1629636310890169277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_14
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 359
+        width: 96
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22b7eb936b5e90ed0800000000000000
+      internalID: -2447172351683560670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_15
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 354
+        width: 96
+        height: 211
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a8d6fee494965520800000000000000
+      internalID: 2690501194785675430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_16
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 354
+        width: 88
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 753f3e3a416059f10800000000000000
+      internalID: 2275731872424391511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_17
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 356
+        width: 91
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd745f1127d6f5c10800000000000000
+      internalID: 2044473092544481247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_18
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 357
+        width: 95
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fba09a12b21b8980800000000000000
+      internalID: -8535708112591475725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_19
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 354
+        width: 88
+        height: 220
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d56e96dd8b2369570800000000000000
+      internalID: 8473015518514243165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_20
+      rect:
+        serializedVersion: 2
+        x: 1145
+        y: 354
+        width: 83
+        height: 218
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91f1f78af81000890800000000000000
+      internalID: -7493988063425650919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_21
+      rect:
+        serializedVersion: 2
+        x: 1256
+        y: 358
+        width: 102
+        height: 212
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1bbb588a7f41b280800000000000000
+      internalID: -9029348390208816356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_22
+      rect:
+        serializedVersion: 2
+        x: 1377
+        y: 359
+        width: 100
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20f4b99a3ca4cdea0800000000000000
+      internalID: -5846716012009140478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 275
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd6645002b3c06bf0800000000000000
+      internalID: -333051203148290341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_24
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 94
+        width: 105
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1279ec68201ec4a0800000000000000
+      internalID: -6571297040475000294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_25
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 95
+        width: 100
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17a423f28fe9744a0800000000000000
+      internalID: -6609139139362010511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_26
+      rect:
+        serializedVersion: 2
+        x: 686
+        y: 93
+        width: 100
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acbadd1595981e4f0800000000000000
+      internalID: -801208241976661046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_27
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 93
+        width: 102
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85ce1a1b3c3292fd0800000000000000
+      internalID: -2366320805800711080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_28
+      rect:
+        serializedVersion: 2
+        x: 1030
+        y: 94
+        width: 107
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 607a23569c5496c80800000000000000
+      internalID: -8329049304556460282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite NPC-Photoroom_29
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 0
+        width: 325
+        height: 261
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6536d1403af5eea90800000000000000
+      internalID: -7282778393658170538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3dcd07fb34b126a4ca5091a686c0da0a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Sprite NPC-Photoroom_0: -5968531229389748824
+      Sprite NPC-Photoroom_1: -5397262467721953132
+      Sprite NPC-Photoroom_10: -21482116376072607
+      Sprite NPC-Photoroom_11: -6940215543269765977
+      Sprite NPC-Photoroom_12: -4381289692260867353
+      Sprite NPC-Photoroom_13: 1629636310890169277
+      Sprite NPC-Photoroom_14: -2447172351683560670
+      Sprite NPC-Photoroom_15: 2690501194785675430
+      Sprite NPC-Photoroom_16: 2275731872424391511
+      Sprite NPC-Photoroom_17: 2044473092544481247
+      Sprite NPC-Photoroom_18: -8535708112591475725
+      Sprite NPC-Photoroom_19: 8473015518514243165
+      Sprite NPC-Photoroom_2: 3505166782428362415
+      Sprite NPC-Photoroom_20: -7493988063425650919
+      Sprite NPC-Photoroom_21: -9029348390208816356
+      Sprite NPC-Photoroom_22: -5846716012009140478
+      Sprite NPC-Photoroom_23: -333051203148290341
+      Sprite NPC-Photoroom_24: -6571297040475000294
+      Sprite NPC-Photoroom_25: -6609139139362010511
+      Sprite NPC-Photoroom_26: -801208241976661046
+      Sprite NPC-Photoroom_27: -2366320805800711080
+      Sprite NPC-Photoroom_28: -8329049304556460282
+      Sprite NPC-Photoroom_29: -7282778393658170538
+      Sprite NPC-Photoroom_3: 2722892326137743939
+      Sprite NPC-Photoroom_4: -4348792813921624112
+      Sprite NPC-Photoroom_5: -8920881548020810059
+      Sprite NPC-Photoroom_6: -3989100177235996801
+      Sprite NPC-Photoroom_7: 8725241430551617557
+      Sprite NPC-Photoroom_8: -8574068707967897319
+      Sprite NPC-Photoroom_9: -6438629544161953683
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

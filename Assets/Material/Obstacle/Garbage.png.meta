@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2ff48b22229ccbb419cd76bf405a08c2
+guid: cc77882994320fa48b8df9a3ff8e6d4b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7766556133328041569
-    second: Hole_0
+      213: -5082740649671923913
+    second: Garbage_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hole_0
+      name: Garbage_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 11
-        width: 388
-        height: 388
+        x: 27
+        y: 93
+        width: 346
+        height: 615
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f99c9d08856a73490800000000000000
-      internalID: -7766556133328041569
+      spriteID: 737edd20f4a7679b0800000000000000
+      internalID: -5082740649671923913
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e17f760d52436b84e8a66d16de7bc12b
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hole_0: -7766556133328041569
+      Garbage_0: -5082740649671923913
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -3368,9 +3368,9 @@ MonoBehaviour:
   defaultDisplaySize: {x: 0.8, y: 1.5}
   spriteTurnLeft: {fileID: -1123821609398510853, guid: 85d906ebea9cad24ab4ac1d5a66a5a2e, type: 3}
   spriteTurnRight: {fileID: -6491624094962793852, guid: 8b7a7a98ae59a644fad2de1e3348a271, type: 3}
-  turnDisplaySize: {x: 0.9, y: 1.1}
+  turnDisplaySize: {x: 0.78, y: 0.97}
   turnSpriteDuration: 0.2
-  turnSpeedMultiplier: 0.55
+  turnSpeedMultiplier: 0.72
   turnSlowDuration: 0.15
   minGreetHoldTime: 0.25
   vfxCrash: {fileID: 0}
@@ -3481,7 +3481,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10, y: -3.5, z: -1}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.188, y: 0.188, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1414687313}

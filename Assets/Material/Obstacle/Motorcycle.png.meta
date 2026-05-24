@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2ff48b22229ccbb419cd76bf405a08c2
+guid: 761c8a3efa8783246b1b920a98e0fb0e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7766556133328041569
-    second: Hole_0
+      213: -1445452147897729650
+    second: Motorcycle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hole_0
+      name: Motorcycle_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 11
-        width: 388
-        height: 388
+        x: 46
+        y: 106
+        width: 306
+        height: 582
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f99c9d08856a73490800000000000000
-      internalID: -7766556133328041569
+      spriteID: e8dfab80ee8b0fbe0800000000000000
+      internalID: -1445452147897729650
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e17f760d52436b84e8a66d16de7bc12b
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hole_0: -7766556133328041569
+      Motorcycle_0: -1445452147897729650
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
