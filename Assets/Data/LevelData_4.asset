@@ -16,7 +16,8 @@ MonoBehaviour:
   levelIndex: 3
   levelLayoutPrefab: {fileID: 2696215653839398054, guid: 57a3b6c8c6db2a84eaa238f971ddd5df, type: 3}
   storyComicPages:
-  - {fileID: -6842176392519209730, guid: 0478bee309e48a04a81a3219a98f8275, type: 3}
+  - {fileID: 3127580768924173184, guid: 0ccb82198b64b924c932b2074e64d022, type: 3}
+  - {fileID: -8009971304290836131, guid: 0137506bbab02bf4882b8793c49f0a74, type: 3}
   timeLimitSeconds: 45
   baseScrollSpeed: 5
   accelerateMultiplier: 1.7
