@@ -226,16 +226,23 @@ public class UIManager : MonoBehaviour
                           $"finalCompletePanel={finalCompletePanel} | " +
                           $"levelCompletePanel={levelCompletePanel}");
 
-                if (isFinal)
+                if (isFinal && finalCompletePanel != null)
                 {
-                    if (finalCompletePanel != null)
-                        ShowPanel(finalCompletePanel);
-                    else
-                        Debug.LogError("[UIManager] finalCompletePanel is NULL! " +
-                                       "Assign it in UIManager Inspector in Scene02.");
+                    // Level 5 selesai DAN finalCompletePanel sudah di-assign
+                    ShowPanel(finalCompletePanel);
+                }
+                else if (isFinal && finalCompletePanel == null)
+                {
+                    // Level 5 selesai TAPI finalCompletePanel belum di-assign di Inspector
+                    // → fallback ke levelCompletePanel agar pemain tidak stuck di layar kosong
+                    Debug.LogError("[UIManager] finalCompletePanel is NULL! " +
+                                   "Assign it in UIManager Inspector in Scene02. " +
+                                   "Showing levelCompletePanel as fallback.");
+                    ShowPanel(levelCompletePanel);
                 }
                 else
                 {
+                    // Level 1-4 selesai → tampilkan mid-level win screen
                     ShowPanel(levelCompletePanel);
                 }
                 break;

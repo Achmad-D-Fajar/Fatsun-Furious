@@ -113,7 +113,13 @@ public class GameManager : MonoBehaviour
     public string GameOverReason { get; private set; } = "";
 
     /// <summary>True if this is the final level (index 4 out of 5).</summary>
-    public bool IsFinalLevel => CurrentLevelIndex == (levels != null ? levels.Length - 1 : 4);
+    // Total level dalam game — harus sama dengan SaveSystem.TOTAL_LEVELS.
+    // Dipisah dari levels[] agar IsFinalLevel tidak berubah saat array belum penuh.
+    private const int TOTAL_LEVELS = 5;
+
+    /// <summary>True jika ini level terakhir (index 4). Selalu mengacu TOTAL_LEVELS,
+    /// BUKAN levels.Length — aman dipakai saat development meski array belum terisi semua.</summary>
+    public bool IsFinalLevel => CurrentLevelIndex == TOTAL_LEVELS - 1;
 
     // ── Events ────────────────────────────────────────────────────────────────
     // UIManager and other systems subscribe to these. No polling needed.

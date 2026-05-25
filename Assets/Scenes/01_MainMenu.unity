@@ -501,6 +501,7 @@ MonoBehaviour:
   pageTitles: []
   tutorialImageDisplay: {fileID: 439420985}
   tutorialSprites:
+  - {fileID: 6147164309009596702, guid: 3a7d356236a0c8346b90d7007c70ffc8, type: 3}
   - {fileID: 2843949717812817940, guid: 958c446010c10b04d8bd4d6b635b37df, type: 3}
   - {fileID: 4352263148271499467, guid: b632557db4dd1aa4fa6b3f5ecc9941eb, type: 3}
   - {fileID: 6572793197808595285, guid: 2e3372f31320c8f43a23e53abd56c58b, type: 3}
